@@ -65,7 +65,7 @@
             const message = `*Olá, desejo comprar os seguintes produtos:*\n\n${itemsMessage}\n\n${totalPriceMessage}`;
 
             // Número para o qual você quer enviar a mensagem (substitua com seu número)
-            const phoneNumber = "5566974001680";
+            const phoneNumber = "5566992482254";
 
             // Formate o link para enviar a mensagem pelo WhatsApp
             const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;

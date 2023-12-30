@@ -26,7 +26,7 @@
         <div class="card card-body" style="border: none;">
             <div class="row" style="padding: 0;">
 
-                <div class="col-6 mx-1 my-1" v-for="product in products" style="width:48%;padding:4px;border: 1px solid #2738491f;border-radius: 21px;background-color: #29282803;">
+                <div class="col-6 mx-1 my-1" v-for="product in products" style="width:46%;padding:4px;border: 1px solid #2738491f;border-radius: 21px;background-color: #29282803;">
                     
                   <div class="card mb-2" style="border:none">
                       <div class="card-body d-flex" style="flex-direction: column;">
