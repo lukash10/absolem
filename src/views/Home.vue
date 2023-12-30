@@ -9,10 +9,10 @@
           <img src="/logo2.png" style="width: 150px;">
         </div>
         
-        <h3 style="text-align: center;text-align: center;background: rgb(41 40 40);font-weight: 700;border-radius: 7px;color:white">Promoções do Dia</h3>
+        <h5 class="background-absolem" style="text-align: center;text-align: center;font-weight: 700;border-radius: 5px;color:white">Promoções do Dia</h5>
         <hr>
 
-        <div id="carouselExampleRide" class=" container carousel slide" data-bs-ride="true">
+        <div id="carouselExampleRide" class="carousel slide" data-ride="carousel">
           
           <div class="carousel-inner">
             
@@ -26,12 +26,12 @@
           </div>
 
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <i class="fa-solid fa-arrow-left" style="color: #3f3659 !important;font-size: 30px;"></i>
             <span class="visually-hidden">Previous</span>
           </button>
 
           <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <i class="fa-solid fa-arrow-right" style="color: #3f3659 !important;font-size: 30px;"></i>
             <span class="visually-hidden">Next</span>
           </button>
           
@@ -46,7 +46,7 @@
 
     <hr class="mt-3">
 
-    <div class="card-header text-center" style="background-color: rgb(41 40 40);color: white;font-weight: 500;">
+    <div class="card-header text-center background-absolem" style="border-radius:5px;color: white;font-weight: 500;">
         Bem vindo ao nosso Cardápio Digital<br>
     </div>
 
@@ -129,6 +129,10 @@ export default {
           this.cart = JSON.parse(savedCart);
           this.calculateTotalPrice();
       }
+
+      setInterval(function() {
+        document.querySelector('#carouselExampleRide [data-bs-slide="next"]').click();
+      }, 4000);
 
     },
     methods: {

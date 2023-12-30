@@ -18,6 +18,11 @@ export default {
 
 <style>
 
+.background-absolem{
+  background: rgb(77,76,87);
+  background: linear-gradient(90deg, rgba(77,76,87,1) 0%, rgba(46,28,92,1) 44%, rgba(95,38,130,1) 100%);
+}
+
 * {
   margin: 0px;
   padding: 0px;

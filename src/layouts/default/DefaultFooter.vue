@@ -1,7 +1,8 @@
 <template>
-  <footer class="footer" style="background: rgb(41 40 40);color: white;">
+  <footer class="footer background-absolem">
     <div class="container">
-      Desenvolvido por <b>Omega Software</b>
+      <span style="color:white"><b>© 2021 Absolem Tabacaria - Omega Software</b></span>
     </div>
   </footer>
 </template>
+
