@@ -123,7 +123,7 @@
       </h3>
       
       <div class="text-center mt-3">
-        <div class="row align-items-start">
+        <div class="row align-items-start" style="margin: 1px;">
           <div v-for="category in categories" class="item col mb-2 mt-2 mx-1" style="position:relative;border: 1px solid #d8d8d84f;border-radius: 10px;">
             <div>
               <router-link :to="`/listproduct?id=${category.id}`">
