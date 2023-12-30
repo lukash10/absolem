@@ -35,19 +35,28 @@
       </div>
     </div>
 
-    <hr class="mt-3">
+    <div class="mt-3 mb-4 d-flex justify-content-center">
+      <img style="width: 200px;" src="/hr.png">
+    </div>
 
     <div class="categorias">
       
-
         <div class="categories-wrapper d-flex" style="justify-content: space-around;">
 
           <div class="col-6 d-flex p-2" style="width: 47% !important;align-items: center;justify-content: center;flex-direction: column;background: #5b267f;color: white;font-weight: 600;border-radius: 10px;">
-              <span>Tabacaria</span>
-              <img src="/public/categorias/narguile.png" style="width: 100px;">
+              <div class="pulsating d-flex" style="flex-direction: column;">
+                <router-link to="/listTabacaria" style="color:white">
+                  <div class="text-center">
+                    <span>Tabacaria</span>
+                  </div>
+                  <img src="/public/categorias/narguile.png" style="width: 100px;">
+                </router-link>
+              </div>
               <div id="options" style="height: 28px;border-radius: 12px;font-weight: 500;background: #dbdbdb4f;width: 85%;display: flex;justify-content: space-evenly;align-items: center;">
                 <div>
-                  <span>Ver opções</span>
+                  <router-link to="/listTabacaria" style="color:white">
+                    <span>Ver opções</span>
+                  </router-link>
                 </div>
                 <div>
                   <i class="fa-solid fa-angle-right"></i>
@@ -56,11 +65,19 @@
           </div>
 
           <div class="col-6 d-flex p-2" style="width: 47% !important;align-items: center;justify-content: center;flex-direction: column;background: #456798;color: white;font-weight: 600;border-radius: 10px;">
-              <span>Bebidas</span>
-              <img src="/public/categorias/bebidas.png" style="width: 100px;">
+              <div class="pulsating">
+                <router-link to="/listBebidas" style="color:white">
+                  <div class="text-center d-flex" style="flex-direction: column;">
+                    <span>Bebidas</span>
+                  </div>
+                  <img src="/public/categorias/bebidas.png" style="width: 100px;">
+                </router-link>  
+              </div>
               <div id="options" style="height: 28px;border-radius: 12px;font-weight: 500;background: #dbdbdb4f;width: 85%;display: flex;justify-content: space-evenly;align-items: center;">
                 <div>
-                  <span>Ver opções</span>
+                  <router-link to="/listBebidas" style="color:white">
+                    <span>Ver opções</span>
+                  </router-link>
                 </div>
                 <div>
                   <i class="fa-solid fa-angle-right"></i>
@@ -127,11 +144,12 @@
           <div v-for="category in categories" class="item col mb-2 mt-2 mx-1" style="position:relative;border: 1px solid #d8d8d84f;border-radius: 10px;">
             <div>
               <router-link :to="`/listproduct?id=${category.id}`">
-                <img alt="Logo" :src="`upload_images/categories/${category.image}` " loading="lazy" class="text-center" style="width: 100px;height: 100px;" /></router-link>
-                <br>
-                <span>
-                  <small style="font-weight:bold">{{ category.name }}</small>
-                </span>
+                <img alt="Logo" :src="`upload_images/categories/${category.image}` " loading="lazy" class="text-center" style="width: 100px;height: 100px;" />
+              </router-link>
+              <br>
+              <span>
+                <small style="font-weight:bold">{{ category.name }}</small>
+              </span>
             </div>
           </div>         
 
@@ -184,9 +202,23 @@ export default {
           this.calculateTotalPrice();
       }
 
-      setInterval(function() {
-        document.querySelector('#carouselExampleRide [data-bs-slide="next"]').click();
-      }, 4000);
+      const currentPath = window.location.pathname;
+      const desiredPath = '/';
+
+      console.log("Curr", currentPath);
+
+      if (currentPath === desiredPath) {
+      
+          const slideNextButton = document.querySelector('#carouselExampleRide [data-bs-slide="next"]');
+
+          if (slideNextButton) {
+            setInterval(() => {
+              slideNextButton.click();
+            }, 4000);
+          } else {
+            console.log('Elemento do botão de slide não encontrado.');
+          }
+        }
 
     },
     methods: {

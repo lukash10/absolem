@@ -74,7 +74,15 @@ const routes = [
     meta: {
       layout: 'default'
     }
-  }
+  },
+  {
+    path: '/listTabacaria',
+    name: 'ListTabacaria',
+    component: () => import('../components/ListTabacaria.vue'),
+    meta: {
+      layout: 'dashboard'
+    }
+  },
 ]
 const router = createRouter({
   linkActiveClass: 'active',
