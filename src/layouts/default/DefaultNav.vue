@@ -5,8 +5,8 @@
       <div class="container" style="padding:15px;justify-content: center;align-items: center;align-content: center;">
         <div class="row" style="align-items: center;">
           
-          <div class="col-8" style="display: flex;justify-content: center;">
-              <span style="color:white"><b>Absolem - Tabacaria & Bebidas</b></span>
+          <div class="col-8" style="display: flex;justify-content: flex-start;">
+              <span style="color:white; font-size:14px"><b>Absolem - Tabacaria & Bebidas</b></span>
           </div>
 
           <div class="col-4">
