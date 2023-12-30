@@ -59,7 +59,7 @@
         </div>
 
         <div id="cart" :class="{ 'cart-shake': cart.length > 0 }">
-            <i class="fa-solid fa-shopping-cart pulsating-cart" @click="openCartModal"></i>
+            <img src="/checklist.png" style="width:40px" class="pulsating-cart" @click="openCartModal">
         </div>
 
         
@@ -67,7 +67,7 @@
             <div class="cart-modal-content">
                 <span class="cart-close" @click="closeCartModal">&times;</span>
             
-                <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" />
+                <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" @update-cart="updateCart" />
                 
             </div>
         </div>
@@ -79,7 +79,7 @@
         </div>
 
         <div style="display: none;">
-            <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" />
+            <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" @update-cart="updateCart" />
         </div>
 
 
@@ -133,6 +133,13 @@ export default {
         
     },
     methods: {
+      updateCart(updatedCart) {
+        this.cart = updatedCart;
+        // Atualize o localStorage se desejar manter os dados entre sessões
+        localStorage.setItem('cart', JSON.stringify(this.cart));
+        // Recalcula o preço total com base no carrinho atualizado
+        this.calculateTotalPrice();
+      },
         addToCartWithShake(product) {
             this.addToCart(product);
             this.addShakeEffect();
@@ -238,12 +245,10 @@ export default {
 
 #cart{
   position: fixed;
-  bottom: 70px;
-  right: 8px;
+  bottom: -2px;
+  right: -5px;
   color: white;
   z-index: 1000000;
-  font-size: 17px;
-  background: #292828;
   padding: 12px;
   border-radius: 10px;
 }
@@ -255,11 +260,6 @@ export default {
   100% {
     transform: scale(1); 
   }
-}
-
-.cart-order{
-    position: absolute;
-    bottom: 20px !important;
 }
 .cart-modal {
   display: flex;

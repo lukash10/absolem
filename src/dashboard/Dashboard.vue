@@ -50,7 +50,7 @@
                 <hr>
 
             <div style="text-align: center;">
-                <h3>Bem vindo ao Dashboard da Calacio Conveniência</h3>
+                <h3>Bem vindo ao Dashboard - Absolem Tacabaria & Bebidas</h3>
 
                 <h5 class="mt-3 mb-4">Tutorial de como utilizar a plataforma</h5>
 

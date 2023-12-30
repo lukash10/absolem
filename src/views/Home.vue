@@ -1,19 +1,16 @@
 <template>
   
-  <div class="container-fluid">
-
+  <div class="container-fluid" style="padding-left: 5px;padding-right: 5px;">
     <div class="row">
-      
       <div class="col-12">
+
         <div class="d-flex justify-content-center mb-3 mt-2">
           <img src="/logo2.png" style="width: 150px;">
         </div>
         
         <h5 class="background-absolem" style="text-align: center;text-align: center;font-weight: 700;border-radius: 5px;color:white">Promoções do Dia</h5>
-        <hr>
-
+      
         <div id="carouselExampleRide" class="carousel slide" data-ride="carousel">
-          
           <div class="carousel-inner">
             
             <div v-for="(p,idx) in promotedProducts" class="col-12 carousel-item" :class="{active: idx===0}" >
@@ -27,41 +24,103 @@
 
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
             <i class="fa-solid fa-arrow-left" style="color: #3f3659 !important;font-size: 30px;"></i>
-            <span class="visually-hidden">Previous</span>
           </button>
 
           <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
             <i class="fa-solid fa-arrow-right" style="color: #3f3659 !important;font-size: 30px;"></i>
-            <span class="visually-hidden">Next</span>
           </button>
           
         </div>
 
       </div>
-    
     </div>
-
-
-        
 
     <hr class="mt-3">
 
-    <div class="card-header text-center background-absolem" style="border-radius:5px;color: white;font-weight: 500;">
-        Bem vindo ao nosso Cardápio Digital<br>
+    <div class="categorias">
+      
+
+        <div class="categories-wrapper d-flex" style="justify-content: space-around;">
+
+          <div class="col-6 d-flex p-2" style="width: 47% !important;align-items: center;justify-content: center;flex-direction: column;background: #5b267f;color: white;font-weight: 600;border-radius: 10px;">
+              <span>Tabacaria</span>
+              <img src="/public/categorias/narguile.png" style="width: 100px;">
+              <div id="options" style="height: 28px;border-radius: 12px;font-weight: 500;background: #dbdbdb4f;width: 85%;display: flex;justify-content: space-evenly;align-items: center;">
+                <div>
+                  <span>Ver opções</span>
+                </div>
+                <div>
+                  <i class="fa-solid fa-angle-right"></i>
+                </div>
+              </div>
+          </div>
+
+          <div class="col-6 d-flex p-2" style="width: 47% !important;align-items: center;justify-content: center;flex-direction: column;background: #456798;color: white;font-weight: 600;border-radius: 10px;">
+              <span>Bebidas</span>
+              <img src="/public/categorias/bebidas.png" style="width: 100px;">
+              <div id="options" style="height: 28px;border-radius: 12px;font-weight: 500;background: #dbdbdb4f;width: 85%;display: flex;justify-content: space-evenly;align-items: center;">
+                <div>
+                  <span>Ver opções</span>
+                </div>
+                <div>
+                  <i class="fa-solid fa-angle-right"></i>
+                </div>
+              </div>
+          </div>
+
+        </div>
+
+        <div class="categories-wrapper-sub d-flex mt-3" style="justify-content: space-around;">
+
+          <div class="col-5 d-flex p-2" style="width: 31% !important;align-items: center;justify-content: center;flex-direction: column;color: black;font-weight: 600;border-radius: 10px;">
+              
+              <img src="/public/categorias/cigarros.png" style="width: 70px;">
+              <div id="options" style="height: 28px;border-radius: 12px;font-weight: 500;width: 85%;display: flex;justify-content: space-evenly;align-items: center;">
+                <div>
+                  <span><b>Cigarros</b></span>
+                </div>
+                <div>
+                  <i class="fa-solid fa-angle-right"></i>
+                </div>
+              </div>
+          </div>
+
+          <div class="col-4 d-flex p-2" style="width: 31% !important;align-items: center;justify-content: center;flex-direction: column;color: black;font-weight: 700;border-radius: 10px;">
+            
+              <img src="/public/categorias/pods.png" style="width: 70px;">
+              <div id="options" style="height: 28px;border-radius: 12px;font-weight: 500;width: 85%;display: flex;justify-content: space-evenly;align-items: center;">
+                <div>
+                  <span><b>Pods</b></span>
+                </div>
+                <div>
+                  <i class="fa-solid fa-angle-right"></i>
+                </div>
+              </div>
+          </div>
+
+          <div class="col-4 d-flex p-2" style="width: 31% !important;align-items: center;justify-content: center;flex-direction: column;color: black;font-weight: 600;border-radius: 10px;">
+              
+              <img src="/public/categorias/gelo.png" style="width: 70px;">
+              <div id="options" style="height: 28px;border-radius: 12px;font-weight: 500;width: 85%;display: flex;justify-content: space-evenly;align-items: center;">
+                <div>
+                  <span><b>Gelo</b></span>
+                </div>
+                <div>
+                  <i class="fa-solid fa-angle-right"></i>
+                </div>
+              </div>
+          </div>
+
+          </div>
+        
+
     </div>
 
- 
-    <div class="categorias text-center">
-
-      <div class="mt-2">
-        <small style="font-size: 12px;"><b>Acesse as categorias, selecione os produtos e finalize sua compra.</b></small>
-      </div>
-
-      <div id="cart" style="display: none;">
-        <Cart :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" />
-      </div>
+    <div class="categorias-essencias text-center">
       
-      <h3 class="mt-4 mb-3"><b>Por Categorias</b></h3>
+      <h3 class="mt-4 mb-3 pulsating">
+        <b>Tabacaria - Essências</b>
+      </h3>
       
       <div class="text-center mt-3">
         <div class="row align-items-start">
@@ -82,23 +141,18 @@
     </div>
 
     <div id="cart" class="cart-icon" @click="openCartModal">
-      <i class="fa-solid fa-shopping-cart pulsating-cart"></i>
+      <img src="/checklist.png" style="width:40px" class="pulsating-cart">
     </div>
 
     <div v-if="isCartModalOpen" class="cart-modal">
         <div class="cart-modal-content">
             <span class="cart-close" @click="closeCartModal">&times;</span>
-        
-            <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" />
-            
+            <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" @update-cart="updateCart" />
         </div>
     </div>
   
   </div>
 
-
-
-  
 </template>
 
 <script>
@@ -136,6 +190,13 @@ export default {
 
     },
     methods: {
+      updateCart(updatedCart) {
+        this.cart = updatedCart;
+        // Atualize o localStorage se desejar manter os dados entre sessões
+        localStorage.setItem('cart', JSON.stringify(this.cart));
+        // Recalcula o preço total com base no carrinho atualizado
+        this.calculateTotalPrice();
+      },
       openCartModal() {
           console.log("this.isCartModalOpen", this.isCartModalOpen);
           this.isCartModalOpen = true;
@@ -178,33 +239,12 @@ export default {
 
 <style scoped>
 
-.cart-shake {
-  animation: shake 0.4s;
-}
-
-@keyframes shake {
-  10%, 90% {
-    transform: translateX(-5px);
-  }
-  20%, 80% {
-    transform: translateX(5px);
-  }
-  30%, 50%, 70% {
-    transform: translateX(-5px);
-  }
-  40%, 60% {
-    transform: translateX(5px);
-  }
-}
-
 #cart{
   position: fixed;
-  bottom: 10px;
-  right: 8px;
+  bottom: -2px;
+  right: -5px;
   color: white;
   z-index: 1000000;
-  font-size: 17px;
-  background: #292828;
   padding: 12px;
   border-radius: 10px;
 }
@@ -218,10 +258,10 @@ export default {
   }
 }
 
-.cart-order{
-    position: absolute;
-    bottom: 20px !important;
+.pulsating {
+  animation: pulse 1.5s infinite;
 }
+
 .cart-modal {
   display: flex;
   position: fixed;
@@ -292,18 +332,5 @@ a{
   color: black;
   text-decoration: none;
 }
-
-.inner img{
-  width: 100%;
-  height: 100%;
-  -webkit-transition: -webkit-transform .5s ease;
-  transition: transform .5s ease;
-}
-
-.inner:hover img{
-  -webkit-transform: scale(1.1);
-   transform: scale(1.1);
-}
-
 
 </style>
