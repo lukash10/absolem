@@ -48,10 +48,6 @@
         totalPrice: Number
     },
     methods:{
-        clearCart() {
-        // Limpar carrinho
-            this.$emit('clear-cart');
-        },
         sendCartItemsToWhatsApp() {
             if (this.cart.length === 0) {
                 // Se o carrinho estiver vazio, não envie mensagem

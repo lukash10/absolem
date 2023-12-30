@@ -67,7 +67,7 @@
             <div class="cart-modal-content">
                 <span class="cart-close" @click="closeCartModal">&times;</span>
             
-                <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" @update-cart="updateCart" />
+                <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @update-cart="updateCart" />
                 
             </div>
         </div>
@@ -79,7 +79,7 @@
         </div>
 
         <div style="display: none;">
-            <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" @update-cart="updateCart" />
+            <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @update-cart="updateCart" />
         </div>
 
 

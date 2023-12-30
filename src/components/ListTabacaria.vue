@@ -9,7 +9,10 @@
                     <div class="col">
                         <div class="text-center">
                             <div class="alert d-flex" style="align-items: center;justify-content: center;background-color: #273849; color:white" role="alert">
-                              <h2>Tacabaria - Narguilé</h2> 
+                              <h2>Tacabaria - Narguilé</h2>
+                              <div class="mx-2">
+                                <img src="/smoke.png" style="width: 40px;">
+                              </div> 
                             </div>
                             <div class="mt-3 mb-4 d-flex justify-content-center">
                               <img style="width: 200px;" src="/hr.png">
@@ -21,36 +24,33 @@
         </nav>
 
         <div class="card card-body" style="border: none;">
-            <div class="row">
-                <div class="col-sm-6 bebidas">
-                    <div class="card mb-2" v-for="product in products" style="border: 1px solid #2738491f;border-radius: 21px;background-color: #29282803;">
-                        <div class="card-body d-flex">
+            <div class="row" style="padding: 0;">
 
-                            <div class="col-6">
-                                <h5 class="card-title">{{ product.title }}</h5>
-                                <p class="card-text"><small class="bolder">{{  product.weight }}</small></p>
-                                <button type="button" class="price btn position-relative">
-                                    R$ {{ product.value }}
-                                </button>
-                                <div>
-                                    <button type="button" class="mt-2 price btn position-relative" @click="addToCartWithShake(product)">
-                                        <i class="fa-solid fa-cart-shopping"></i> Adicionar
-                                    </button>
-                                </div>
-                                
-                                <p class="card-text mt-2"><small class="bolder">{{  product.additional }}</small></p>
-                            </div>
+                <div class="col-6" v-for="product in products" style="padding:4px;border: 1px solid #2738491f;border-radius: 21px;background-color: #29282803;">
+                    
+                  <div class="card mb-2">
+                      <div class="card-body d-flex" style="flex-direction: column;">
+                          <h5 class="card-title"><b>{{ product.title }}</b></h5>
+                          <span class="card-text"><small class="bolder"><b>{{ product.weight }}</b></small></span>
 
-                            <div class="col-6">
-                                <div class="text-center">
-                                    <img class="items-card pulsating" alt="Logo" :src="`/upload_images/products/${product.image}`" 
-                                    @click="expandImage(`/upload_images/products/${product.image}`)"
-                                    />
-                                </div>
-                            </div>
+                          <div class="d-flex justify-content-center mb-1 mt-1" style="align-items: center;">
+                              <img class="items-card pulsating" alt="Logo" :src="`/upload_images/products/${product.image}`" 
+                              @click="expandImage(`/upload_images/products/${product.image}`)" />
+                          </div>
 
-                        </div>
+                          <div class="mt-1">
+                              <button type="button" class="price btn position-relative">
+                                R$ {{ product.value }}
+                              </button>
+                              <button type="button" class="mt-2 price btn position-relative" @click="addToCartWithShake(product)">
+                                  <i class="fa-solid fa-cart-shopping"></i> Adicionar
+                              </button>
+                          </div>
+                          
+                          <p class="card-text mt-2"><small class="bolder">{{  product.additional }}</small></p>
                     </div>
+
+                  </div>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
             <div class="cart-modal-content">
                 <span class="cart-close" @click="closeCartModal">&times;</span>
             
-                <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" @update-cart="updateCart" />
+                <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @update-cart="updateCart" />
                 
             </div>
         </div>
@@ -76,7 +76,7 @@
         </div>
 
         <div style="display: none;">
-            <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" @update-cart="updateCart" />
+            <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @update-cart="updateCart" />
         </div>
 
 
@@ -205,15 +205,22 @@ export default {
         },
         async getProducts(tagId) {
 
-            var url = `/api/products?categoryId=${this.idCategory}&disabled=false`
+          console.log("tag", tagId);
 
-            if (tagId) {
-                url = url + `&tagId=${tagId}`
-            }
+            //axios.get(`/api/tags?idCategory=${this.idCategory}`)
 
-            const response = await axios.get(url)
+          var url = `/api/products?promotion=false`
 
-            return response.data
+          if (tagId) {
+              url = url + `&tagId=${tagId}`
+          }
+
+          const response = await axios.get(url);
+
+          console.log("response", response);
+          return response.data;
+
+
         }
     },
 }
@@ -379,7 +386,8 @@ export default {
 .price {
   color: white;
   font-weight: 700;
-  background-color: black;
+  background-color: #5c2680;
+  width: 100%;
 }
 
 .items-card {
@@ -388,6 +396,7 @@ export default {
   border-color: #ebe4e4 !important;
   border: azure 2px solid;
   border-radius: 26px;
+  background: #e3e3e3;
 }
 
 </style>

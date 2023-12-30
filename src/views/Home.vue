@@ -165,7 +165,7 @@
     <div v-if="isCartModalOpen" class="cart-modal">
         <div class="cart-modal-content">
             <span class="cart-close" @click="closeCartModal">&times;</span>
-            <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @clear-cart="clearCart" @update-cart="updateCart" />
+            <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @update-cart="updateCart" />
         </div>
     </div>
   
@@ -242,11 +242,6 @@ export default {
       },
       closeCartModal() {
           this.isCartModalOpen = false;
-      },
-      clearCart() {
-        // Limpar carrinho
-        this.cart = [];
-        this.totalPrice = 0;
       },
       calculateTotalPrice() {
           // Calcula o preço total dos produtos no carrinho
