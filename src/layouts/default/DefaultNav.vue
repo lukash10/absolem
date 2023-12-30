@@ -13,7 +13,7 @@
             <button class="btn" style="background-color:white;border: none;">
               <router-link to="/" style="color:black;text-decoration: none !important;">
                 <a>
-                  <i class="fa-solid fa-home"></i> <b>Início</b>
+                  <i class="fa-solid fa-home background-absolem"></i> <b>Início</b>
                 </a>
               </router-link>
             </button>
