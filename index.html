@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Calacio Conveniência">
+
+    <link rel="icon" href="/logo2.png">
+    <title>Absolem Tacabaria</title>
+
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Conveniência Calácio" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link href="/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/css/brands.min.css" rel="stylesheet">
+    <link href="/css/solid.min.css" rel="stylesheet">
+    <link href="/css/default.css" rel="stylesheet">
+    <!-- <link rel="apple-touch-icon" href="/iphone-icon.png" /> -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- //https://progressier.com/pwa-icons-and-ios-splash-screen-generator -->
+
+
+
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%- title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+
+
+  <script>
+
+    if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('./sw.js').then(function(registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }).catch(function(err) {
+          //registration failed :(
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      }else {
+        console.log('No service-worker on this browser');
+      }
+  
+  </script>
+  
+</html>

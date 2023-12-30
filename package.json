@@ -1,0 +1,46 @@
+{
+  "name": "absolem-lukash",
+  "description": "Absolem Tabacaria",
+  "version": "0.0.1-semantic-release",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "serve": "vite preview",
+    "build": "vite build",
+    "start": "vite preview"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "@vue/cli-plugin-pwa": "^5.0.8",
+    "@vueform/multiselect": "^2.5.8",
+    "axios": "^1.3.3",
+    "body-parser": "^1.20.1",
+    "bootstrap": "^5.2.0",
+    "bootstrap-icons": "^1.9.1",
+    "concurrently": "^7.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "pinia": "^2.0.16",
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.2",
+    "workbox": "^0.0.0",
+    "workbox-build": "^6.5.4",
+    "workbox-webpack-plugin": "^6.5.4",
+    "workbox-window": "^6.5.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.9",
+    "@babel/preset-env": "^7.18.9",
+    "@vitejs/plugin-vue": "^3.0.1",
+    "@vue/compiler-sfc": "^3.2.37",
+    "@vue/vue3-jest": "^28.0.1",
+    "sass": "^1.54.0",
+    "vite": "^3.0.2",
+    "vite-plugin-html": "^3.2.0",
+    "vite-plugin-pwa": "^0.14.0",
+    "workbox-precaching": "^6.5.4"
+  }
+}

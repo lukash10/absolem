@@ -1,0 +1,42 @@
+import vue from '@vitejs/plugin-vue'
+import { createHtmlPlugin } from 'vite-plugin-html'
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    createHtmlPlugin({
+      minify: false,
+      inject: {
+        data: {
+          title: 'Calácio Conveniência',
+          description: 'Calácio Conveniência - A melhor conveniência da região',
+        }
+      }
+    })
+  ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, '/src'),
+      '~bootstrap': 'bootstrap'
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/scss/variables";`
+      }
+    }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3080/api',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      }
+    }
+  }
+})
