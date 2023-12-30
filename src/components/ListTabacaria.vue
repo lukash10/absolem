@@ -26,9 +26,9 @@
         <div class="card card-body" style="border: none;">
             <div class="row" style="padding: 0;">
 
-                <div class="col-6" v-for="product in products" style="padding:4px;border: 1px solid #2738491f;border-radius: 21px;background-color: #29282803;">
+                <div class="col-6 mx-1 my-1" v-for="product in products" style="width:48%;padding:4px;border: 1px solid #2738491f;border-radius: 21px;background-color: #29282803;">
                     
-                  <div class="card mb-2">
+                  <div class="card mb-2" style="border:none">
                       <div class="card-body d-flex" style="flex-direction: column;">
                           <h5 class="card-title"><b>{{ product.title }}</b></h5>
                           <span class="card-text"><small class="bolder"><b>{{ product.weight }}</b></small></span>
@@ -47,7 +47,7 @@
                               </button>
                           </div>
                           
-                          <p class="card-text mt-2"><small class="bolder">{{  product.additional }}</small></p>
+                          <!-- <p class="card-text"><small class="bolder">{{  product.additional }}</small></p> -->
                     </div>
 
                   </div>
@@ -393,10 +393,8 @@ export default {
 .items-card {
   width: 150px !important;
   height: 150px !important;
-  border-color: #ebe4e4 !important;
-  border: azure 2px solid;
   border-radius: 26px;
-  background: #e3e3e3;
+  border: none;
 }
 
 </style>
