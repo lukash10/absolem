@@ -1,8 +1,9 @@
 const db = require('../repository');
 
 module.exports = {
-  findListAndOne: async (req, res) => {
 
+  findListAndOne: async (req, res) => {
+    
     const id = req.query.id;
     const categoryId = req.query.categoryId;
     const tagId = req.query.tagId;

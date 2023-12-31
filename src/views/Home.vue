@@ -192,6 +192,7 @@ export default {
       Cart
     },
     async mounted() {
+      
       await this.getCategory();
       await this.getPromotion();
 
@@ -252,7 +253,7 @@ export default {
       async getCategory() {
             const response = await axios.get(`/api/categories`)
             this.categories = response.data;
-            console.log(this.categories);
+            console.log("CAT", this.category = response.data);
       },
       async getPromotion() {
           const response = await axios.get(`/api/products?promotion=true&disabled=false`)

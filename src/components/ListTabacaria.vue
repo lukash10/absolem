@@ -3,7 +3,7 @@
         
       <DefaultNav/>
         
-        <nav aria-label="Page navigation example">
+        <nav aria-label="">
             <div class="container">
                 <div class="row d-flex" style="justify-content: center;align-items: center;">
                     <div class="col">
@@ -14,46 +14,81 @@
                                 <img src="/smoke.png" style="width: 40px;">
                               </div> 
                             </div>
-                            <div class="mt-3 mb-4 d-flex justify-content-center">
-                              <img style="width: 200px;" src="/hr.png">
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </nav>
+            <div class="d-flex justify-content-center mb-3">
+              <a href="/listTabacaria"><button class="btn" style="background: #5a257e;color: white;"><span class="text-center" style="text-decoration: ;"><b>Limpar Filtros <i class="fa-solid fa-eraser"></i></b></span></button></a>
+            </div>
+          </nav>
 
-        <div class="card card-body" style="border: none;">
+        <div id="categoryEssences" class="container" style="background: #2738490a;padding: 20px;border-radius: 20px;">
+          <div class="row">
+            <h3 class="text-center"><b>Por Categoria de Essências</b></h3>
+            <carousel :items-to-show="3.5" :wrap-around="true">
+              <slide id="carouselCat" v-for="category in filteredEssences" :key="category.id" class="col d-flex mx-2" style="flex-direction: column;" @click="loadProductsByCategory(category.id)">
+                <div class="carousel__item">
+                  <div class="img">
+                    <img :src="`upload_images/categories/${category.image}`" style="width: 80px;">
+                  </div>
+                  <div class="name">{{ category.name }}</div>
+                </div>
+              </slide>
+            </carousel>
+          </div>
+        </div>
+
+        <div id="categoryAcessorios" class="container mt-3" style="background: #2738490a;padding: 20px;border-radius: 20px;">
+          <div class="row" style="padding: 0;margin: 0;">
+            <h3 class="text-center"><b>Carvões & Acessórios</b></h3>
+        
+              <div id="carouselCat" v-for="category in filteredCategories" :key="category.id" class="col d-flex" style="flex-direction: column;" @click="loadProductsByCategory(category.id)">
+                <div class="carousel__item" style="display: flex;flex-direction: column;align-items: center;">
+                  <div class="img">
+                    <img :src="`upload_images/categories/${category.image}`" style="width: 80px;">
+                  </div>
+                  <div class="name">{{ category.name }}</div>
+                </div>
+              </div>
+           
+          </div>
+        </div>
+
+        <div class="card mt-3" style="border: none;" v-if="essencesProducts && essencesProducts.length > 0">
+          <div class="row justify-content-center">
+            <div v-for="product in essencesProducts" :key="product.id" class="col-6 mx-1 my-1 d-flex align-items-stretch" style="width:46%;">
+              <div class="card mb-2" style="border: 1px solid #2738491f; border-radius: 21px; background-color: #29282803; height: 100%;">
+                <div class="card-body d-flex flex-column justify-content-between">
+                  <h5 class="card-title" style="text-wrap: balance;font-size: 14px;"><b>{{ product.title }}</b></h5>
+                  <span class="card-text"><small class="bolder"><b>{{ product.weight }}</b></small></span>
+
+                  <div class="d-flex justify-content-center my-1">
+                    <img class="items-card pulsating" alt="Logo" :src="`/upload_images/products/${product.image}`" @click="expandImage(`/upload_images/products/${product.image}`)" />
+                  </div>
+
+                  <div class="mt-1">
+                    <button type="button" class="price btn position-relative">
+                      R$ {{ product.value }}
+                    </button>
+                    <button type="button" class="mt-2 price btn position-relative" @click="addToCartWithShake(product)">
+                      <i class="fa-solid fa-cart-shopping"></i> Adicionar
+                    </button>
+                  </div>
+                  
+                  <p class="card-text"><small class="bolder">{{ product.additional }}</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="card card-body" style="border: none;">
             <div class="row" style="padding: 0;">
 
-                <div class="col-6 mx-1 my-1" v-for="product in products" style="width:46%;padding:4px;border: 1px solid #2738491f;border-radius: 21px;background-color: #29282803;">
-                    
-                  <div class="card mb-2" style="border:none">
-                      <div class="card-body d-flex" style="flex-direction: column;">
-                          <h5 class="card-title"><b>{{ product.title }}</b></h5>
-                          <span class="card-text"><small class="bolder"><b>{{ product.weight }}</b></small></span>
 
-                          <div class="d-flex justify-content-center mb-1 mt-1" style="align-items: center;">
-                              <img class="items-card pulsating" alt="Logo" :src="`/upload_images/products/${product.image}`" 
-                              @click="expandImage(`/upload_images/products/${product.image}`)" />
-                          </div>
-
-                          <div class="mt-1">
-                              <button type="button" class="price btn position-relative">
-                                R$ {{ product.value }}
-                              </button>
-                              <button type="button" class="mt-2 price btn position-relative" @click="addToCartWithShake(product)">
-                                  <i class="fa-solid fa-cart-shopping"></i> Adicionar
-                              </button>
-                          </div>
-                          
-                          <!-- <p class="card-text"><small class="bolder">{{  product.additional }}</small></p> -->
-                    </div>
-
-                  </div>
-                </div>
             </div>
-        </div>
+        </div> -->
 
         <div id="cart" :class="{ 'cart-shake': cart.length > 0 }">
             <img src="/checklist.png" style="width:40px" class="pulsating-cart" @click="openCartModal">
@@ -63,21 +98,16 @@
         <div v-if="isCartModalOpen" class="cart-modal">
             <div class="cart-modal-content">
                 <span class="cart-close" @click="closeCartModal">&times;</span>
-            
                 <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @update-cart="updateCart" />
-                
             </div>
         </div>
         
-
         <div v-if="isModalOpen" class="modal">
             <span class="close" @click="closeModal">&times;</span>
             <img class="modal-content" :src="modalImageSrc" />
         </div>
 
-        <div style="display: none;">
-            <Cart ref="cartComponent" :cart="cart" :totalPrice="totalPrice" @update-cart="updateCart" />
-        </div>
+        
 
 
       <DefaultFooter/>
@@ -93,136 +123,180 @@ import DefaultNav from '../layouts/default/DefaultNav.vue';
 import axios from 'axios';
 import Cart from "./Cart.vue";
 
+import 'vue3-carousel/dist/carousel.css'
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+
 export default {
   components: {
     DefaultNav,
     DefaultFooter,
-    Cart
+    Cart,
+    Carousel,
+    Slide,
+    Pagination,
+    Navigation,
   },
 
   data() {
     return {
-        idCategory: '',
-        category: {},
-        tags: [],
-        products: [],
-        isModalOpen: false,
-        modalImageSrc: '',
-        cart: [],
-        totalPrice: 0,
-        isCartModalOpen: false,
+    essencesProducts: [],
+    categories: [],
+    tags: [],
+    products: [],
+    isModalOpen: false,
+    modalImageSrc: '',
+    cart: [],
+    totalPrice: 0,
+    isCartModalOpen: false,
+    items: [
+      { id: 1, image: '/categorias/Restaurantes3_42lO.avif', name: '1' },
+      { id: 2, image: '/categorias/Restaurantes3_42lO.avif', name: '2' },
+      { id: 3, image: '/categorias/Restaurantes3_42lO.avif', name: '3' },
+      { id: 4, image: '/categorias/Restaurantes3_42lO.avif', name: '4' },
+      { id: 5, image: '/categorias/Restaurantes3_42lO.avif', name: '5' },
+    ],
+    activeIndex: -1, // Começa sem nenhum ativo
+    }
+  },
+  computed: {
+    filteredEssences() {
+      const allowedCategories = ['Nay', 'Haze', 'Ziggy', 'Zomo', 'Sense', 'Magic'];
+      return this.categories.filter(category => allowedCategories.includes(category.name));
+    },
+    filteredCategories() {
+      const allowedCategories = ['Carvão', 'Acessórios', 'Pods'];
+      return this.categories.filter(category => allowedCategories.includes(category.name));
     }
   },
   async mounted() {
 
-        this.idCategory = this.$route.query.id;
+    await this.getCategory();
+   
+    this.products = await this.getProducts();
 
-        await this.getCategory();
+    console.log("por", this.products);
+    this.tags = await this.getTags();
 
-        this.products = await this.getProducts();
-        this.tags = await this.getTags();
+    const savedCart = localStorage.getItem('cart');
 
-        const savedCart = localStorage.getItem('cart');
-
-        if (savedCart) {
-            this.cart = JSON.parse(savedCart);
-            this.calculateTotalPrice();
-        }
-        
-    },
-    methods: {
-      updateCart(updatedCart) {
-        this.cart = updatedCart;
-        // Atualize o localStorage se desejar manter os dados entre sessões
-        localStorage.setItem('cart', JSON.stringify(this.cart));
-        // Recalcula o preço total com base no carrinho atualizado
+    if (savedCart) {
+        this.cart = JSON.parse(savedCart);
         this.calculateTotalPrice();
-      },
-        addToCartWithShake(product) {
-            this.addToCart(product);
-            this.addShakeEffect();
-        },
-        addShakeEffect() {
-            const cartIcon = document.getElementById('cart');
-            cartIcon.classList.add('cart-shake');
+    }
+        
+  },
+  methods: {
+    async loadProductsByCategory(idCategory) {
+      // Aqui você carrega os produtos da categoria de Essências
+      // Substitua essa lógica com a chamada à API ou ação necessária
+      try {
+        const categoryIdEssences = idCategory;
 
-            setTimeout(() => {
-                cartIcon.classList.remove('cart-shake');
-            }, 500);
-        },
-        openCartModal() {
-            console.log("this.isCartModalOpen", this.isCartModalOpen);
-            this.isCartModalOpen = true;
-        },
-        closeCartModal() {
-            this.isCartModalOpen = false;
-        },
-        addToCart(product) {
-        // Adiciona o produto ao carrinho
-            this.cart.push({
-                title: product.title,
-                weight: product.weight,
-                value: product.value,
-                additional: product.additional
-            });
-            // Recalcula o preço total
+        const response = await axios.get('/api/products', {
+          params: {
+            categoryId: categoryIdEssences,
+          },
+        });
 
-            localStorage.setItem('cart', JSON.stringify(this.cart));
-
-            this.calculateTotalPrice();
-        },
-        calculateTotalPrice() {
-            // Calcula o preço total dos produtos no carrinho
-            this.totalPrice = this.cart.reduce((total, product) => {
-                return total + parseFloat(product.value);
-            }, 0);
-        },
-        expandImage(imageSrc) {
-            console.log("Cliquei", imageSrc);
-            this.isModalOpen = true;
-            console.log("this.isModalOpen", this.isModalOpen);
-            this.modalImageSrc = imageSrc;
-            console.log("this.modalImageSrc", this.modalImageSrc);
-        },
-        closeModal() {
-            this.isModalOpen = false;
-            this.modalImageSrc = '';
-        },
-        async getCategory() {
-            const response = await axios.get(`/api/categories`)
-            this.category = response.data;
-            console.log("CAT", this.category = response.data);
-        },
-        async getTags() {
-            const response = await axios.get(`/api/tags?idCategory=${this.idCategory}`)
-
-            return response.data
-        },
-        async toggleTag(tag) {
-            this.products = await this.getProducts(tag.id)
-
-            console.log(this.products)
-        },
-        async getProducts(tagId) {
-
-          console.log("tag", tagId);
-
-            //axios.get(`/api/tags?idCategory=${this.idCategory}`)
-
-          var url = `/api/products?promotion=false`
-
-          if (tagId) {
-              url = url + `&tagId=${tagId}`
-          }
-
-          const response = await axios.get(url);
-
-          console.log("response", response);
-          return response.data;
-
-
-        }
+        this.essencesProducts = response.data;
+      } catch (error) {
+        console.error('Erro ao carregar produtos de Essências:', error);
+      }
     },
+    setActive(index) {
+      this.activeIndex = index;
+    },
+    updateCart(updatedCart) {
+      this.cart = updatedCart;
+      // Atualize o localStorage se desejar manter os dados entre sessões
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+      // Recalcula o preço total com base no carrinho atualizado
+      this.calculateTotalPrice();
+    },
+      addToCartWithShake(product) {
+          this.addToCart(product);
+          this.addShakeEffect();
+      },
+      addShakeEffect() {
+          const cartIcon = document.getElementById('cart');
+          cartIcon.classList.add('cart-shake');
+
+          setTimeout(() => {
+              cartIcon.classList.remove('cart-shake');
+          }, 500);
+      },
+      openCartModal() {
+          console.log("this.isCartModalOpen", this.isCartModalOpen);
+          this.isCartModalOpen = true;
+      },
+      closeCartModal() {
+          this.isCartModalOpen = false;
+      },
+      addToCart(product) {
+      // Adiciona o produto ao carrinho
+          this.cart.push({
+              title: product.title,
+              weight: product.weight,
+              value: product.value,
+              additional: product.additional
+          });
+          // Recalcula o preço total
+
+          localStorage.setItem('cart', JSON.stringify(this.cart));
+
+          this.calculateTotalPrice();
+      },
+      calculateTotalPrice() {
+          // Calcula o preço total dos produtos no carrinho
+          this.totalPrice = this.cart.reduce((total, product) => {
+              return total + parseFloat(product.value);
+          }, 0);
+      },
+      expandImage(imageSrc) {
+          console.log("Cliquei", imageSrc);
+          this.isModalOpen = true;
+          console.log("this.isModalOpen", this.isModalOpen);
+          this.modalImageSrc = imageSrc;
+          console.log("this.modalImageSrc", this.modalImageSrc);
+      },
+      closeModal() {
+          this.isModalOpen = false;
+          this.modalImageSrc = '';
+      },
+      async getCategory() {
+          const response = await axios.get(`/api/categories`)
+          this.categories = response.data;
+          console.log("CAT", this.categories = response.data);
+      },
+      async getTags() {
+          const response = await axios.get(`/api/tags?idCategory=${this.idCategory}`)
+          return response.data
+      },
+      async toggleTag(tag) {
+
+          this.products = await this.getProducts(tag.id)
+          console.log(this.products)
+      },
+      async getProducts(tagId) {
+
+        console.log("tag", tagId);
+
+          //axios.get(`/api/tags?idCategory=${this.idCategory}`)
+
+        var url = `/api/products?promotion=false`
+
+        if (tagId) {
+            url = url + `&tagId=${tagId}`
+        }
+
+        const response = await axios.get(url);
+
+        console.log("response", response);
+        return response.data;
+
+
+      }
+  },
 }
 
 

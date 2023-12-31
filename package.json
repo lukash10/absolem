@@ -26,6 +26,7 @@
     "pinia": "^2.0.16",
     "vue": "^3.2.37",
     "vue-router": "^4.1.2",
+    "vue3-carousel": "^0.3.1",
     "workbox": "^0.0.0",
     "workbox-build": "^6.5.4",
     "workbox-webpack-plugin": "^6.5.4",
