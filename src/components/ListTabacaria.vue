@@ -55,7 +55,7 @@
           </div>
         </div>
 
-        <div class="card mt-3" style="border: none;" v-if="essencesProducts && essencesProducts.length > 0">
+        <div class="card mt-3" ref="productSection" style="border: none;" v-if="essencesProducts && essencesProducts.length > 0">
           <div class="row justify-content-center">
             <div v-for="product in essencesProducts" :key="product.id" class="col-6 mx-1 my-1 d-flex align-items-stretch" style="width:46%;">
               <div class="card mb-2" style="border: 1px solid #2738491f; border-radius: 21px; background-color: #29282803; height: 100%;">
@@ -197,6 +197,11 @@ export default {
             categoryId: categoryIdEssences,
           },
         });
+
+        const section = this.$refs.productSection;
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
 
         this.essencesProducts = response.data;
       } catch (error) {
