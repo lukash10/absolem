@@ -4,8 +4,8 @@
     "display": "standalone",
     "scope": "/",
     "start_url": "/",
-    "name": "Absolem Tabacaria",
-    "short_name": "Absolem Tabacaria",
+    "name": "Absolem",
+    "short_name": "Absolem",
     "icons": [
         {
             "src": "/icon-192x192.png",
