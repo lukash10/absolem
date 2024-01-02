@@ -10,8 +10,8 @@ export default defineConfig({
       minify: false,
       inject: {
         data: {
-          title: 'Calácio Conveniência',
-          description: 'Calácio Conveniência - A melhor conveniência da região',
+          title: 'Absolem Tabacaria',
+          description: 'Absolem Tabacaria & Distribuidora',
         }
       }
     })
@@ -20,13 +20,6 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, '/src'),
       '~bootstrap': 'bootstrap'
-    }
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@import "./src/scss/variables";`
-      }
     }
   },
   server: {

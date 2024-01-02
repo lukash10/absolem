@@ -1,15 +1,21 @@
 <template>
   
   <div class="container-fluid" style="padding-left: 5px;padding-right: 5px;">
+
+    <PWA></PWA>
+
     <div class="row">
+
       <div class="col-12">
 
-        <div class="d-flex justify-content-center mb-3 mt-2">
+        <div class="d-flex justify-content-center mb-5 mt-2">
           <img src="/logo2.png" style="width: 150px;">
         </div>
         
-        <h5 class="background-absolem" style="text-align: center;text-align: center;font-weight: 700;border-radius: 5px;color:white">Promoções do Dia</h5>
-      
+        <div class="">
+          <h5 class="background-absolem" style="text-align: center;text-align: center;font-weight: 700;border-radius: 5px;color:white">Promoções do Dia</h5>
+        </div>
+        
         <div id="carouselExampleRide" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             
@@ -136,15 +142,15 @@
     <div class="categorias-essencias text-center">
       
       <h3 class="mt-4 mb-3 pulsating">
-        <b>Tabacaria - Essências</b>
+        <b>Todas Categorias</b>
       </h3>
       
       <div class="text-center mt-3">
         <div class="row align-items-start" style="margin: 1px;">
-          <div v-for="category in categories" class="item col mb-2 mt-2 mx-1" style="position:relative;border: 1px solid #d8d8d84f;border-radius: 10px;">
+          <div v-for="category in categories" :key="category.id" class="item col-6 mb-2 mt-2 mx-1" style="width:47%;position:relative;border: 1px solid #d8d8d84f;border-radius: 10px;">
             <div>
               <router-link :to="`/listproduct?id=${category.id}`">
-                <img alt="Logo" :src="`upload_images/categories/${category.image}` " loading="lazy" class="text-center" style="width: 100px;height: 100px;" />
+                <img alt="Logo" :src="`upload_images/categories/${category.image}`" class="text-center" style="width: 100px;height: 100px;" />
               </router-link>
               <br>
               <span>
@@ -152,7 +158,6 @@
               </span>
             </div>
           </div>         
-
         </div>
       </div>
       
@@ -175,93 +180,95 @@
 
 <script>
 
+import PWA from '../components/PWA.vue'
 import Cart from '../components/Cart.vue'
 import axios from 'axios'
 
 export default {
-    data() {
-        return {
-            categories: [],
-            promotedProducts: [],
-            cart: [], // Seus dados do carrinho
-            totalPrice: '',
-            isCartModalOpen: false,
-        }
-    },
-    components: {
-      Cart
-    },
-    async mounted() {
-      
-      await this.getCategory();
-      await this.getPromotion();
+  data() {
+    return {
+      categories: [],
+      promotedProducts: [],
+      cart: [], // Seus dados do carrinho
+      totalPrice: '',
+      isCartModalOpen: false,
+      excludedCategories: ['Pods', 'Carvão', 'Acessórios'],
+    }
+  },
+  components: {
+    Cart,
+    PWA
+  },
+  async mounted() {
 
-      const savedCart = localStorage.getItem('cart');
-    
-      if (savedCart) {
-          this.cart = JSON.parse(savedCart);
-          this.calculateTotalPrice();
-      }
+    await this.getCategory();
+    await this.getPromotion();
 
-      const currentPath = window.location.pathname;
-      const desiredPath = '/';
+    const savedCart = localStorage.getItem('cart');
 
-      console.log("Curr", currentPath);
-
-      if (currentPath === desiredPath) {
-      
-          const slideNextButton = document.querySelector('#carouselExampleRide [data-bs-slide="next"]');
-
-          if (slideNextButton) {
-            setInterval(() => {
-              slideNextButton.click();
-            }, 4000);
-          } else {
-            console.log('Elemento do botão de slide não encontrado.');
-          }
-        }
-
-    },
-    methods: {
-      updateCart(updatedCart) {
-        this.cart = updatedCart;
-        // Atualize o localStorage se desejar manter os dados entre sessões
-        localStorage.setItem('cart', JSON.stringify(this.cart));
-        // Recalcula o preço total com base no carrinho atualizado
+    if (savedCart) {
+        this.cart = JSON.parse(savedCart);
         this.calculateTotalPrice();
-      },
-      openCartModal() {
-          console.log("this.isCartModalOpen", this.isCartModalOpen);
-          this.isCartModalOpen = true;
+    }
 
-          // Passe as informações do carrinho para o modal
-          const cartComponent = this.$refs.cartComponent; // Referência ao componente do carrinho
-          if (cartComponent) {
-              cartComponent.cart = this.cart; // Atualize os itens do carrinho no componente do carrinho
-              cartComponent.totalPrice = this.totalPrice; // Atualize o preço total no componente do carrinho
-          }
-      },
-      closeCartModal() {
-          this.isCartModalOpen = false;
-      },
-      calculateTotalPrice() {
-          // Calcula o preço total dos produtos no carrinho
-          this.totalPrice = this.cart.reduce((total, product) => {
-              return total + parseFloat(product.value);
-          }, 0);
-      },
-      async getCategory() {
-            const response = await axios.get(`/api/categories`)
-            this.categories = response.data;
-            console.log("CAT", this.category = response.data);
-      },
-      async getPromotion() {
-          const response = await axios.get(`/api/products?promotion=true&disabled=false`)
-          this.promotedProducts = response.data;
-          console.log(this.promotedProducts);
+    const currentPath = window.location.pathname;
+    const desiredPath = '/';
+
+    if (currentPath === desiredPath) {
+    
+        const slideNextButton = document.querySelector('#carouselExampleRide [data-bs-slide="next"]');
+
+        if (slideNextButton) {
+          setInterval(() => {
+            slideNextButton.click();
+          }, 4000);
+        } else {
+          console.log('Elemento do botão de slide não encontrado.');
+        }
       }
+  },
+  methods: {
+    handleCloseToast() {
+      console.log('Fechando o toast...');
     },
+    updateCart(updatedCart) {
+      this.cart = updatedCart;
+      // Atualize o localStorage se desejar manter os dados entre sessões
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+      // Recalcula o preço total com base no carrinho atualizado
+      this.calculateTotalPrice();
+    },
+    openCartModal() {
+        console.log("this.isCartModalOpen", this.isCartModalOpen);
+        this.isCartModalOpen = true;
 
+        // Passe as informações do carrinho para o modal
+        const cartComponent = this.$refs.cartComponent; // Referência ao componente do carrinho
+        if (cartComponent) {
+            cartComponent.cart = this.cart; // Atualize os itens do carrinho no componente do carrinho
+            cartComponent.totalPrice = this.totalPrice; // Atualize o preço total no componente do carrinho
+        }
+    },
+    closeCartModal() {
+        this.isCartModalOpen = false;
+    },
+    calculateTotalPrice() {
+        // Calcula o preço total dos produtos no carrinho
+        this.totalPrice = this.cart.reduce((total, product) => {
+            return total + parseFloat(product.value);
+        }, 0);
+    },
+    async getCategory() {
+          const response = await axios.get(`/api/categories`)
+          this.categories = response.data;
+          console.log("CAT", this.category = response.data);
+    },
+    async getPromotion() {
+        const response = await axios.get(`/api/products?promotion=true&disabled=false`)
+        this.promotedProducts = response.data;
+        console.log(this.promotedProducts);
+    }
+  },
 }
 </script>
 

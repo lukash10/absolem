@@ -51,7 +51,6 @@
                   <div class="name">{{ category.name }}</div>
                 </div>
               </div>
-           
           </div>
         </div>
 
@@ -155,7 +154,7 @@ export default {
       { id: 4, image: '/categorias/Restaurantes3_42lO.avif', name: '4' },
       { id: 5, image: '/categorias/Restaurantes3_42lO.avif', name: '5' },
     ],
-    activeIndex: -1, // Começa sem nenhum ativo
+      activeIndex: -1, // Começa sem nenhum ativo
     }
   },
   computed: {
@@ -173,8 +172,6 @@ export default {
     await this.getCategory();
    
     this.products = await this.getProducts();
-
-    console.log("por", this.products);
     this.tags = await this.getTags();
 
     const savedCart = localStorage.getItem('cart');

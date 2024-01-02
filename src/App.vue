@@ -4,16 +4,22 @@
   </component>
 </template>
 
+
 <script>
-import './scss/app.scss'
+
 
 export default {
+  data() {
+    return {
+      compatConfig: { MODE: 3 },
+    };
+  },
   computed: {
     layout() {
       return `layout-${this.$route.meta.layout || 'default'}`
     }
   }
-}
+};
 </script>
 
 <style>
