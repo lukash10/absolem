@@ -3,17 +3,19 @@
 <body>
 
     <div id="top-nav" class="justify-content-center navbar navbar-static-top mb-5" style="height: 80px;background-color: #212529;">
-        <div class="d-flex px-3">
-            <img alt="Logo" src="../../assets/logo_calacio.png" class="text-center" style="width:50px" />
-        </div>
+        
         <div class="d-flex">
-            <h2 style="color: white;margin-top:7px">Calácio Conveniência</h2>
+            <h2 style="color: white;margin-top:7px">Absolem Tabacaria & Distribuidora</h2>
         </div>
     </div>
 
     <MenuLateral></MenuLateral>
 
     <section id="main_prod">
+
+        <div class="d-flex justify-content-center">
+            <img alt="Logo" src="/logo.png" class="text-center" style="width:150px" />
+        </div>
 
         <h2 class="mb-5" style="text-align: center;">Cadastro de Categorias</h2>
         
@@ -25,11 +27,11 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <h6 class="text-primary">Dados da Categoria</h6>
+                                    <h6 style="color:#212529 !important;"><b>Dados da Categoria</b></h6>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 mt-4">
                                     <div class="form-group">
-                                        <label for="fullName">Nome da Categoria</label>
+                                        <label for="fullName" class="text-primary"><b>Nome da Categoria</b></label>
                                         <input v-model="form.name" type="text" class="form-control" id="nomeImte" placeholder="Digite nome da Categoria">
                                     </div>
                                 </div>
@@ -42,8 +44,8 @@
 
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
-                                        <label for="formFile" class="form-label">Selecione a imagem do produto</label>
-                                        <p v-show="loaded">ARQUIVO CARREGADO</p>
+                                        <label for="formFile" class="form-label"><small>Selecione a imagem do produto</small></label>
+                                        <p v-show="loaded"><b>ARQUIVO CARREGADO</b></p>
                                         <input @change="onFileUpload()" type="file" id="formFile" accept=".jpg, .png, .gif, .webp, .jpeg">
                                     </div>
                                 </div>
@@ -53,10 +55,10 @@
                             <div class="row">
                                 <div class="mt-5 mb-5 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <div>
-                                        <button @click.prevent="addUpdateCategory" type="button" id="submit" name="submit" class="btn" style="background: #b01116;color: white;border: none;">
+                                        <button @click.prevent="addUpdateCategory" type="button" id="submit" name="submit" class="btn" style="background: #0b9712;color: white;border: none;">
                                             {{ mode === 'ADD' ? 'Cadastrar' : 'Atualizar' }}
                                         </button>
-                                           <button @click.prevent="$router.push('/listcat')" type="button" id="submit" name="submit" class="mx-3 btn btn-secondary">Voltar</button>
+                                           <button @click.prevent="$router.push('/listcat')" type="button" id="submit" name="submit" class="mx-3 btn btn-danger">Voltar</button>
                                     </div>
                                 </div>
                             </div>
@@ -66,12 +68,12 @@
 
                 <div class="col-3">
                     <div class="card h-100">
-                        <div class="card-body">
+                        <div class="card-body" style="align-items: center;justify-content: center;">
                             <div class="account-settings">
                                 <div class="user-profile">
-                                    <p>Prévia da Edição</p>
+                                    <p><b>Prévia da Edição</b></p>
                                     <div v-if="mode == 'ADD' " class="user-avatar">
-                                        <img id="img1" v-if="!form.image" :src="'https://calacioconveniencia.com/assets/logo_calacio.397324df.png'">
+                                        <img id="img1" v-if="!form.image" src="/logo.png" style="width: 180px;height: 100px;">
                                         <img id="img2" v-else :src="form.image">
                                     </div>
                                     <div v-else>

@@ -1,6 +1,6 @@
 <template>
 
-    <section id="menu">
+    <section id="menu" class="background-ab">
 
         <ul class="nav nav-pills flex-column mb-auto p-3">
             
@@ -13,43 +13,43 @@
             
                 <h4 style="text-align: center;color:white">Categorias</h4>
 
-                <li class="lks nav-item nav-link">
+                <router-link class="rlink" to="/cadcat"><li class="lks nav-item nav-link">
                     <i class="fa-solid fa-square-plus lkss"></i>
-                    <router-link class="rlink" to="/cadcat">Cadastrar Categoria</router-link>
-                </li>
+                    Cadastrar Categoria
+                </li></router-link>
             
-                <li class="lks nav-item nav-link">
+                <router-link class="rlink" to="/listcat"><li class="lks nav-item nav-link">
                     <i class="fa-solid fa-list lkss"></i>
-                    <router-link class="rlink" to="/listcat">Listar Categorias</router-link>
-                </li>
+                    Listar Categorias
+                </li></router-link>
 
                 <hr style="color:white">
             
             <h4 style="text-align: center;color:white">Sub Categorias</h4>
 
-            <li class="lks nav-item nav-link">
+            <router-link class="rlink" to="/subcadcat"><li class="lks nav-item nav-link">
                 <i class="fa-solid fa-square-plus lkss"></i>
-                <router-link class="rlink" to="/subcadcat">Cad SubCategoria</router-link>
-            </li>
+                Cad SubCategoria
+            </li></router-link>
         
-            <li class="lks nav-item nav-link">
+            <router-link class="rlink" to="/sublistcat"><li class="lks nav-item nav-link">
                 <i class="fa-solid fa-list lkss"></i>
-                <router-link class="rlink" to="/sublistcat">Listar SubCategoria</router-link>
-            </li>
+                Listar SubCategoria
+            </li></router-link>
 
             <hr style="color:white">
 
                 <h4 style="text-align: center;color:white">Produtos</h4>
             
-                <li class="lks nav-item nav-link">
+                <router-link class="rlink" to="/cadproduto"><li class="lks nav-item nav-link">
                     <i class="fa-solid fa-square-plus lkss"></i>
-                    <router-link class="rlink" to="/cadproduto">Cadastros Produtos</router-link>
-                </li>
+                    Cadastros Produtos
+                </li></router-link>
 
-                <li class="lks nav-item nav-link">
+                <router-link class="rlink" to="/listproduto"><li class="lks nav-item nav-link">
                     <i class="fa-solid fa-list lkss"></i>
-                    <router-link class="rlink" to="/listproduto">Listar Produtos</router-link>
-                </li>
+                    Listar Produtos
+                </li></router-link>
             
         </ul>
 
@@ -59,6 +59,10 @@
 </template>
 
 <style scoped>
+
+.nav-link{
+    color:white;
+}
 
 section#menu{
     width: 250px;
@@ -75,14 +79,20 @@ section#main{
 }
 
 .rlink{
-    padding:10px;
+    padding: 5px;
     color: white;
-    font-size: large;
+    font-size: 16px;
+    text-decoration: none !important;
 }
 
 .lks{
     background-color: #2d343b;
     margin-bottom: 10px;
+    text-decoration: none !important;
+}
+
+.lks:hover{
+    background: black;
 }
 
 .lkss{

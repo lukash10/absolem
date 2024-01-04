@@ -3,17 +3,18 @@
     <body>
         <!-- Header -->
         <div id="top-nav" class="justify-content-center navbar navbar-static-top mb-5" style="height: 80px;background-color: #212529;">
-            <div class="d-flex px-3">
-                <img alt="Logo" src="../../public/logo2.png" class="text-center" style="width:50px" />
-            </div>
             <div class="d-flex">
-                <h2 style="color: white;margin-top:7px">Sniper Tabacaria</h2>
+                <h2 style="color: white;margin-top:7px">Absolem Tabacaria & Distribuidora</h2>
             </div>
         </div>
 
         <MenuLateral></MenuLateral>
 
         <section id="main">
+
+            <div class="d-flex justify-content-center">
+                <img alt="Logo" src="../../public/logo2.png" class="text-center" style="width:200px" />
+            </div>
         
             <div class="container">
 
@@ -37,7 +38,7 @@
                             <div class="card-block">
                                 <h5 style="">Produtos Cadastrados</h5>
                                 <div class="d-flex mt-3" style="justify-content: space-between;">
-                                    <i class="fa-solid fa-pizza-slice"></i>
+                                    <i class="fa-solid fa-smoking"></i>
                                     <h2 class="text-right"><span>{{ products }}</span></h2>
                                 </div>
                         
@@ -142,6 +143,7 @@ section#main{
 .order-card i {
     font-size: 26px;
 }
+
 
 
 </style>

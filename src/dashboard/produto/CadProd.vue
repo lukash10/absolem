@@ -3,17 +3,18 @@
 <body>
 
     <div id="top-nav" class="justify-content-center navbar navbar-static-top mb-5" style="height: 80px;background-color: #212529;">
-        <div class="d-flex px-3">
-            <img alt="Logo" src="../../assets/logo_calacio.png" class="text-center" style="width:50px" />
-        </div>
         <div class="d-flex">
-            <h2 style="color: white;margin-top:7px">Calácio Conveniência</h2>
+            <h2 style="color: white;margin-top:7px">Absolem Tabacaria & Distribuidora</h2>
         </div>
     </div>
 
     <MenuLateral></MenuLateral>
 
     <section id="main_prod">
+
+        <div class="d-flex justify-content-center">
+            <img alt="Logo" src="/logo.png" class="text-center" style="width:150px" />
+        </div>
 
         <h2 class="mb-5" style="text-align: center;">Cadastro de Produtos</h2>
         
@@ -29,7 +30,7 @@
                                 </div>
                                 <div class="mb-2 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
-                                        <label for="fullName">Nome do Produto</label>
+                                        <label for="fullName"><b>Nome do Produto</b></label>
                                         <input v-model="form.title" type="text" class="form-control" id="nomeImte" placeholder="Digite nome do Produto">
                                     </div>
                                 </div>
@@ -37,8 +38,8 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label for="valor">Valor (R$)</label>
-                                                <input v-model="form.value" type="text" class="form-control" id="valor" placeholder="Digite apenas o valor">
+                                                <label for="valor"><b>Valor (R$)</b></label>
+                                                <input v-model="form.value" type="text" class="form-control" id="valor" placeholder="Ex: 10,99">
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -98,7 +99,7 @@
                             </div>
                             <div class="row gutters">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <h6 class="mt-5 text-primary">Imagem do Produto / Acompanhamentos</h6>
+                                    <h6 class="mt-5 text-primary">Imagem do Produto</h6>
                                 </div>
 
                                 <div class="mt-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -109,7 +110,7 @@
                                 </div>
                                 <div class="mt-4 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
-                                        <label for="exampleFormControlTextarea1">Acompanhamentos (se houver)</label>
+                                        <label for="exampleFormControlTextarea1">Informações Adicionais (se houver)</label>
                                         <textarea v-model="form.additional" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                                     </div>
                                 </div>
@@ -119,10 +120,10 @@
                             <div class="row">
                                 <div class="mt-5 mb-5 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <div>
-                                        <button @click.prevent="addUpdateProduct" type="button" id="submit" name="submit" class="btn" style="background: #b01116;color: white;border: none;">
+                                        <button @click.prevent="addUpdateProduct" type="button" id="submit" name="submit" class="btn" style="background: #0b7544;color: white;border: none;">
                                             {{ mode === 'ADD' ? 'Cadastrar' : 'Atualizar'}}
                                         </button>
-                                        <button @click.prevent="$router.push('/listproduto')" type="button" id="submit" name="submit" class="mx-3 btn btn-secondary">Voltar</button>
+                                        <button @click.prevent="$router.push('/listproduto')" type="button" id="submit" name="submit" class="mx-3 btn btn-danger">Voltar</button>
                                     </div>
                                 </div>
                             </div>
@@ -132,23 +133,27 @@
 
                 <div class="col-3">
                     <div class="card h-100">
-                        <div class="card-body">
+                        <div class="card-body" style="align-items: center;justify-content: center;">
                             <div class="account-settings">
                                 <div class="user-profile">
-                                    <p>Prévia da Edição</p>
+                                    <p><b>Prévia da Edição</b></p>
+                                    <hr>
                                     <div v-if="mode == 'ADD' " class="user-avatar">
-                                        <img id="img1" v-if="!form.image" :src="'https://calacioconveniencia.com/assets/logo_calacio.397324df.png'">
+                                        <img id="img1" v-if="!form.image" src="/logo.png" style="width: 180px;height: 100px;">
                                         <img id="img2" v-else :src="form.image">
                                     </div>
                                     <div v-else>
                                         <img id="img3" v-if="imageUpdated == false " style="width: 150px;" :src="'/upload_images/products/' + form.image">
                                         <img id="img4" v-else style="width: 150px;" :src="form.image">
                                     </div>
-                                    <h5 class="user-name">{{ form.title }}</h5>
-                                    <h6 class="user-email">{{ form.value }}</h6>
+                                    <h5 class="user-name" style="font-size: 14px;">{{ form.title }}</h5>
+                                    <h6 v-if="form.value" class="user-email">R$ {{ form.value }}</h6>
+                                    <h6 v-if="form.categoryId" class="user-email"> <b>{{getCategoryNameById(form.categoryId)}}</b> </h6>
+                                    <h6 v-if="form.promotion" class="user-email mt-2">Produto em Promoção</h6>
+                                    <h6 v-if="form.disabled" class="user-email">Produto sem Estoque</h6>
                                 </div>
                                 <div class="about">
-                                    <h5>Acompanhamentos</h5>
+                                    <h6>Informações Adicionais</h6>
                                     <p>{{ form.additional }}</p>
                                 </div>
                             </div>
@@ -201,8 +206,7 @@ export default {
     },
     async mounted() {
 
-        
-
+    
         this.idProduct = this.$route.query.id
 
         if (this.idProduct) {
@@ -242,6 +246,10 @@ export default {
             const response = await axios.get('/api/categories')
 
             return response.data
+        },
+        getCategoryNameById(categoryId) {
+            const category = this.options.find(option => option.id === categoryId);
+            return category ? category.name : '';
         },
         async changeTagOptions() {
             const response = await axios.get(`/api/tags?idCategory=${this.form.categoryId}`)
