@@ -3,17 +3,18 @@
     <body>
     
         <div id="top-nav" class="justify-content-center navbar navbar-static-top mb-5" style="height: 80px;background-color: #212529;">
-            <div class="d-flex px-3">
-                <img alt="Logo" src="../../assets/logo_calacio.png" class="text-center" style="width:50px" />
-            </div>
             <div class="d-flex">
-                <h2 style="color: white;margin-top:7px">Calácio Conveniência</h2>
+                <h2 style="color: white;margin-top:7px">Absolem Tabacaria & Distribuidora</h2>
             </div>
         </div>
     
         <MenuLateral></MenuLateral>
     
         <section id="main_prod">
+
+            <div class="d-flex justify-content-center">
+                <img alt="Logo" src="/logo.png" class="text-center" style="width:200px" />
+            </div>
     
             <h2 class="mb-5" style="text-align: center;">{{ mode === 'ADD' ? 'Cadastro de SubCategorias' : 'Alterar SubCategoria' }}</h2>
             
