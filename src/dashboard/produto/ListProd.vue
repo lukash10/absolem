@@ -18,7 +18,27 @@
     
             <h2 class="mb-5" style="text-align: center;">Lista de Produtos</h2>
             
-            <div class="container">
+            <hr>
+
+            <div v-if="loading" class="text-center mt-5">
+                
+                <div class="mt-1 mb-2 loading-pulse">
+                    <b>Carregando Produtos...</b>
+                </div>
+ 
+                <div class="spinner-border text-primary mx-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-border text-secondary mx-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-border text-success mx-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+
+            </div>
+
+            <div v-else class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <VueMultiselect
@@ -27,8 +47,6 @@
                         :close-on-select="true"
                         :clear-on-select="false"
                         placeholder="Busque um produto"
-                        label="name"
-                        track-by="name"
                         />
                     </div>
                 </div>
@@ -55,7 +73,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr v-for="product in products">
+                                                            <tr v-for="(product, index) in paginatedProducts" :key="index">
                                                                 <td>
                                                                     <div class="widget-26-job-emp-img">
                                                                         <img class="img-size" :src="'/upload_images/products/' + product.image" alt="Company" />
@@ -83,13 +101,13 @@
                                                                     <p class="type m-0 text-center"> {{ product.additional }} </p>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="#" class="table-link text-info" @click="$router.push(`/cadproduto?id=${product.id}`)">
+                                                                    <a class="table-link text-info" @click="$router.push(`/cadproduto?id=${product.id}`)">
                                                                         <span class="fa-stack">
                                                                             <i class="fa fa-square fa-stack-2x"></i>
                                                                             <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                                                         </span>
                                                                     </a>
-                                                                    <a href="#" class="table-link text-warning" @click="confirmDelete(product.id, product.title)">
+                                                                    <a class="table-link text-warning" @click="confirmDelete(product.id, product.title)">
                                                                         <span class="fa-stack">
                                                                             <i style="color:#b01116" class="fa fa-square fa-stack-2x"></i>
                                                                             <i style="color:white" class="fa fa-trash fa-stack-1x fa-inverse" aria-hidden="true"></i>
@@ -104,26 +122,27 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <nav class="d-flex justify-content-center">
                                     <ul class="pagination pagination-base pagination-boxed pagination-square mb-0">
-                                        <li class="page-item">
-                                            <a class="page-link no-border" href="#">
-                                                <span aria-hidden="true">«</span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item active"><a class="page-link no-border" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link no-border" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link no-border" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link no-border" href="#">4</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link no-border" href="#">
-                                                <span aria-hidden="true">»</span>   
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </li>
+                                    <li class="page-item" v-if="currentPage > 1">
+                                        <a class="page-link no-border" @click="previousPage">
+                                        <span aria-hidden="true">«</span>
+                                        <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li v-for="pageNumber in totalPageCount" :key="pageNumber" :class="{'page-item': true, 'active': currentPage === pageNumber}">
+                                        <a class="page-link no-border" @click="changePage(pageNumber)">{{ pageNumber }}</a>
+                                    </li>
+                                    <li class="page-item" v-if="currentPage < totalPageCount">
+                                        <a class="page-link no-border" @click="nextPage">
+                                        <span aria-hidden="true">»</span>
+                                        <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
                                     </ul>
                                 </nav>
+
                             </div>
                         </div>
                     </div>
@@ -148,11 +167,14 @@ import VueMultiselect from 'vue-multiselect'
 export default {
     data() {
         return {
+            currentPage: 1,
+            itemsPerPage: 10,
             products: [],
             options: [],
             categories: [],
             selected: null,
-            options: ['list', 'of', 'options']
+            options: [],
+            loading: true,
         }
     },
     components: {
@@ -160,9 +182,51 @@ export default {
         VueMultiselect
     },
     async mounted() {
-        this.products = await this.getProducts();
+
+        try {
+            this.products = await this.getProducts();
+            this.options = this.products.map(product => product.title);
+            this.loading = false; // Quando os produtos forem carregados, definimos loading como falso
+            console.log("PRODUCTS", this.products);
+            console.log("OPT", this.options);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            this.loading = false; // Em caso de erro, também definimos loading como falso
+        }
+
+    },
+    computed: {
+        totalPageCount() {
+        return Math.ceil(this.products.length / this.itemsPerPage);
+        },
+        paginatedProducts() {
+            const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+            const endIndex = this.currentPage * this.itemsPerPage;
+            return this.products.slice(startIndex, endIndex);
+        },
+        filteredProducts() {
+            if (!this.selected) {
+                return this.products; // Se nenhum filtro estiver selecionado, retorne todos os produtos
+            } else {
+                return this.products.filter(product => product.title === this.selected); // Filtre os produtos com base no título
+                // Ou você pode usar outra lógica de filtragem, como por categoria, usando 'product.categoryName === this.selected'
+            }
+        }
     },
     methods: {
+        changePage(pageNumber) {
+            this.currentPage = pageNumber;
+        },
+        nextPage() {
+            if (this.currentPage < this.totalPageCount) {
+                this.currentPage++;
+            }
+        },
+        previousPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
         async getCategoryName(categoryId) {
             try {
                 //const response = await axios.get('/api/categories')
@@ -250,6 +314,21 @@ a {
     padding: 12px 8px;
 }
 
+.loading-pulse {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.9);
+    }
+    50% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.9);
+    }
+}
 
 
 </style>

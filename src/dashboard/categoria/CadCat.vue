@@ -123,6 +123,7 @@ export default {
         this.idCategory = this.$route.query.id
 
         if (this.idCategory) {
+            console.log("ID CAT", this.idCategory );
             this.mode = 'UPDATE'
 
             await this.getCategory(this.idCategory)
@@ -134,12 +135,15 @@ export default {
     },
     methods: {
         async addUpdateCategory() {
-            if (this.mode === 'ADD') {
-                await axios.post("/api/category", this.form)
-                alert('Categoria cadastrada com sucesso!')
-            } else {
-                await axios.put(`/api/category/${this.idCategory}`, this.form)
 
+            if (this.mode === 'ADD') {
+
+                await axios.post("/api/category", this.form)
+                alert('Categoria cadastrada com sucesso!');
+
+            } else {
+
+                await axios.put(`/api/category/${this.idCategory}`, this.form)
 
                 alert('Categoria alterada com sucesso!')
             }
@@ -147,6 +151,7 @@ export default {
             this.$router.push('/listcat')
         },
         async getCategory(idCategory) {
+            
             const response = await axios.get(`/api/categories?id=${idCategory}`)
             
             this.form = response.data

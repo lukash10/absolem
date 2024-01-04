@@ -47,13 +47,13 @@
                                         
                                         
                                         <td>
-                                            <a href="#" class="table-link text-info">
+                                            <a class="table-link text-info">
                                                 <span class="fa-stack">
                                                     <i class="fa fa-square fa-stack-2x"></i>
                                                     <i @click="$router.push(`/cadcat?id=${category.id}`)" class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                                 </span>
                                             </a>
-                                            <a href="#" class="table-link text-warning" @click="confirmDelete(category.id, category.name)">
+                                            <a class="table-link text-warning" @click="confirmDelete(category.id, category.name)">
                                                 <span class="fa-stack">
                                                     <i style="color:#b01116" class="fa fa-square fa-stack-2x"></i>
                                                     <i style="color:white" class="fa fa-trash fa-stack-1x fa-inverse" aria-hidden="true"></i>
