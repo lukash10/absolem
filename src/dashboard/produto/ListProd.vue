@@ -18,8 +18,6 @@
     
             <h2 class="mb-5" style="text-align: center;">Lista de Produtos</h2>
             
-            <hr>
-
             <div v-if="loading" class="text-center mt-5">
                 
                 <div class="mt-1 mb-2 loading-pulse">
@@ -200,9 +198,15 @@ export default {
         return Math.ceil(this.products.length / this.itemsPerPage);
         },
         paginatedProducts() {
-            const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-            const endIndex = this.currentPage * this.itemsPerPage;
-            return this.products.slice(startIndex, endIndex);
+            if (this.selected) {
+                // Se um produto foi selecionado, mostre apenas ele
+                return this.products.filter(product => product.title === this.selected);
+            } else {
+                // Caso contrário, mostre os produtos paginados normalmente
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = this.currentPage * this.itemsPerPage;
+                return this.products.slice(startIndex, endIndex);
+            }
         },
         filteredProducts() {
             if (!this.selected) {
