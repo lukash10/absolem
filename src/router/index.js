@@ -83,6 +83,14 @@ const routes = [
       layout: 'dashboard'
     }
   },
+  {
+    path: '/listBebidas',
+    name: 'ListBebidas',
+    component: () => import('../components/ListBebidas.vue'),
+    meta: {
+      layout: 'dashboard'
+    }
+  },
 ]
 const router = createRouter({
   linkActiveClass: 'active',
