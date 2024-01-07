@@ -55,6 +55,9 @@ const generateModels = (model, dataTypes) => {
     },
     weight: {
       type: dataTypes.STRING
+    },
+    stock: {
+      type: dataTypes.INTEGER
     }
   });
 

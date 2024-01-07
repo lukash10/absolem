@@ -67,6 +67,7 @@
                                                                 <th>Valor</th>
                                                                 <th>Peso</th>
                                                                 <th class="text-center">Adicional</th>
+                                                                <th>Estoque</th>
                                                                 <th>Ações</th>
                                                             </tr>
                                                         </thead>
@@ -99,13 +100,21 @@
                                                                     <p class="type m-0 text-center"> {{ product.additional }} </p>
                                                                 </td>
                                                                 <td>
-                                                                    <a class="table-link text-info" @click="$router.push(`/cadproduto?id=${product.id}`)">
+                                                                    <div>
+                                                                        <input type="number" v-model="product.stock" min="0" class="form-control" style="width: 70px;" />
+                                                                        <button class="btn btn-sm btn-success" @click="updateStock(product.id, product.stock)">
+                                                                            Atualizar
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <a type="button" class="table-link text-info" @click="$router.push(`/cadproduto?id=${product.id}`)">
                                                                         <span class="fa-stack">
                                                                             <i class="fa fa-square fa-stack-2x"></i>
                                                                             <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                                                         </span>
                                                                     </a>
-                                                                    <a class="table-link text-warning" @click="confirmDelete(product.id, product.title)">
+                                                                    <a type="button" class="table-link text-warning" @click="confirmDelete(product.id, product.title)">
                                                                         <span class="fa-stack">
                                                                             <i style="color:#b01116" class="fa fa-square fa-stack-2x"></i>
                                                                             <i style="color:white" class="fa fa-trash fa-stack-1x fa-inverse" aria-hidden="true"></i>
@@ -184,6 +193,7 @@ export default {
         try {
             this.products = await this.getProducts();
             this.options = this.products.map(product => product.title);
+            
             this.loading = false; // Quando os produtos forem carregados, definimos loading como falso
             console.log("PRODUCTS", this.products);
             console.log("OPT", this.options);
@@ -195,7 +205,7 @@ export default {
     },
     computed: {
         totalPageCount() {
-        return Math.ceil(this.products.length / this.itemsPerPage);
+            return Math.ceil(this.products.length / this.itemsPerPage);
         },
         paginatedProducts() {
             if (this.selected) {
@@ -218,6 +228,22 @@ export default {
         }
     },
     methods: {
+        async updateStock(productId, stock) {
+            try {
+                const response = await axios.put(`/api/product/${productId}`, { stock: stock });
+                console.log('Stock updated:', response);
+                // Atualize o produto diretamente na lista para refletir as alterações na interface
+                const updatedProductIndex = this.products.findIndex(product => product.id === productId);
+                if (updatedProductIndex !== -1) {
+                    this.products[updatedProductIndex].stock = stock;
+                    //this.products[updatedProductIndex].stock = ''; // Limpa o campo de entrada após a atualização
+                    alert('Estoque atualizado com sucesso!');
+                }
+            } catch (error) {
+                console.error('Error updating stock:', error);
+                // Trate o erro, mostre uma mensagem, etc.
+            }
+        },
         changePage(pageNumber) {
             this.currentPage = pageNumber;
         },
