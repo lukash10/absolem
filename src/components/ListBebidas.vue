@@ -63,7 +63,6 @@
             <img src="/checklist.png" style="width:40px" class="pulsating-cart" @click="openCartModal">
         </div>
 
-        
         <div v-if="isCartModalOpen" class="cart-modal">
             <div class="cart-modal-content">
                 <span class="cart-close" @click="closeCartModal">&times;</span>
