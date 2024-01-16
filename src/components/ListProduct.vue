@@ -117,19 +117,21 @@ export default {
   },
   async mounted() {
 
-        this.idCategory = this.$route.query.id;
+      this.idCategory = this.$route.query.id;
+      console.log("Categoriy,",this.idCategory);
 
-        await this.getCategory();
+      await this.getCategory();
 
-        this.products = await this.getProducts();
-        this.tags = await this.getTags();
+      this.products = await this.getProducts();
+      console.log("Prods", this.products);
+      this.tags = await this.getTags();
 
-        const savedCart = localStorage.getItem('cart');
+      const savedCart = localStorage.getItem('cart');
 
-        if (savedCart) {
-            this.cart = JSON.parse(savedCart);
-            this.calculateTotalPrice();
-        }
+      if (savedCart) {
+          this.cart = JSON.parse(savedCart);
+          this.calculateTotalPrice();
+      }
         
     },
     methods: {
@@ -212,9 +214,11 @@ export default {
                 url = url + `&tagId=${tagId}`
             }
 
-            const response = await axios.get(url)
+            const response = await axios.get(url);
 
-            return response.data
+            console.log("response", response);
+
+            return response.data.products
         }
     },
 }

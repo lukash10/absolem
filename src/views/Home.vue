@@ -259,14 +259,13 @@ export default {
         }, 0);
     },
     async getCategory() {
-          const response = await axios.get(`/api/categories`)
-          this.categories = response.data;
-          console.log("CAT", this.category = response.data);
+        const response = await axios.get(`/api/categories`)
+        this.categories = response.data;
     },
     async getPromotion() {
         const response = await axios.get(`/api/products?promotion=true&disabled=false`)
         this.promotedProducts = response.data;
-        console.log(this.promotedProducts);
+        console.log("Promoção", this.promotedProducts);
     }
   },
 }

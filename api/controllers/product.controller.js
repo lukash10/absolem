@@ -18,12 +18,18 @@ module.exports = {
     }
     // Se promotion for passado como 'true', desativado ou indefinido, mantém o valor 'true'
     const isPromotion = promotion === 'true' ? 'false' : undefined;
-    const offset = (page - 1) * pageSize;
 
-    console.log("Offset", offset);
-    console.log("pageSize", pageSize);
+    let offset, limit;
 
-    const products = await db.findAllProducts(tagId, categoryId, isPromotion, disabled, offset, pageSize);
+    if (req.query.page && req.query.pageSize) {
+        offset = (page - 1) * pageSize;
+        limit = pageSize;
+        console.log("Offset", offset);
+        console.log("pageSize", pageSize);
+    }
+
+    const products = await db.findAllProducts(tagId, categoryId, isPromotion, disabled, offset, limit);
+     
             
     // Realize a contagem total de produtos
     const totalCount = await db.countAllProducts(tagId, categoryId, isPromotion, disabled);

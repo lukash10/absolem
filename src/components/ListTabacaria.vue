@@ -26,9 +26,9 @@
         <div id="categoryEssences" class="container" style="background: #2738490a;padding: 20px;border-radius: 20px;">
           <div class="row">
             <h3 class="text-center"><b>Por Categoria de Essências</b></h3>
-            <carousel :items-to-show="3.5" :wrap-around="true">
+            <carousel :items-to-show="4" :wrap-around="true">
               <slide id="carouselCat" v-for="category in filteredEssences" :key="category.id" class="col d-flex mx-2" style="flex-direction: column;" @click="loadProductsByCategory(category.id)">
-                <div class="carousel__item">
+                <div class="carousel__item" type="button">
                   <div class="img">
                     <img :src="`upload_images/categories/${category.image}`" style="width: 80px;">
                   </div>
@@ -44,7 +44,7 @@
             <h3 class="text-center"><b>Carvões & Acessórios</b></h3>
         
               <div id="carouselCat" v-for="category in filteredCategories" :key="category.id" class="col d-flex" style="flex-direction: column;" @click="loadProductsByCategory(category.id)">
-                <div class="carousel__item" style="display: flex;flex-direction: column;align-items: center;">
+                <div class="carousel__item" type="button" style="display: flex;flex-direction: column;align-items: center;">
                   <div class="img">
                     <img :src="`upload_images/categories/${category.image}`" style="width: 80px;">
                   </div>
@@ -159,7 +159,7 @@ export default {
   },
   computed: {
     filteredEssences() {
-      const allowedCategories = ['Nay', 'Haze', 'Ziggy', 'Zomo', 'Sense', 'Magic'];
+      const allowedCategories = ['Nay', 'FM', 'Ziggy', 'Zomo', 'Sense', 'Magic', 'Onix'];
       return this.categories.filter(category => allowedCategories.includes(category.name));
     },
     filteredCategories() {
@@ -184,8 +184,7 @@ export default {
   },
   methods: {
     async loadProductsByCategory(idCategory) {
-      // Aqui você carrega os produtos da categoria de Essências
-      // Substitua essa lógica com a chamada à API ou ação necessária
+     
       try {
         const categoryIdEssences = idCategory;
 
@@ -199,8 +198,8 @@ export default {
         if (section) {
           section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-
-        this.essencesProducts = response.data;
+        console.log("this.essencesProducts", this.essencesProducts);
+        this.essencesProducts = response.data.products;
       } catch (error) {
         console.error('Erro ao carregar produtos de Essências:', error);
       }
@@ -209,75 +208,73 @@ export default {
       this.activeIndex = index;
     },
     updateCart(updatedCart) {
+
       this.cart = updatedCart;
-      // Atualize o localStorage se desejar manter os dados entre sessões
       localStorage.setItem('cart', JSON.stringify(this.cart));
-      // Recalcula o preço total com base no carrinho atualizado
       this.calculateTotalPrice();
     },
       addToCartWithShake(product) {
-          this.addToCart(product);
-          this.addShakeEffect();
+        this.addToCart(product);
+        this.addShakeEffect();
       },
       addShakeEffect() {
-          const cartIcon = document.getElementById('cart');
-          cartIcon.classList.add('cart-shake');
+        const cartIcon = document.getElementById('cart');
+        cartIcon.classList.add('cart-shake');
 
-          setTimeout(() => {
-              cartIcon.classList.remove('cart-shake');
-          }, 500);
+        setTimeout(() => {
+            cartIcon.classList.remove('cart-shake');
+        }, 500);
       },
       openCartModal() {
-          console.log("this.isCartModalOpen", this.isCartModalOpen);
-          this.isCartModalOpen = true;
+        console.log("this.isCartModalOpen", this.isCartModalOpen);
+        this.isCartModalOpen = true;
       },
       closeCartModal() {
-          this.isCartModalOpen = false;
+        this.isCartModalOpen = false;
       },
       addToCart(product) {
-      // Adiciona o produto ao carrinho
-          this.cart.push({
-              title: product.title,
-              weight: product.weight,
-              value: product.value,
-              additional: product.additional
-          });
-          // Recalcula o preço total
 
-          localStorage.setItem('cart', JSON.stringify(this.cart));
+        this.cart.push({
+            title: product.title,
+            weight: product.weight,
+            value: product.value,
+            additional: product.additional
+        });
+     
+        localStorage.setItem('cart', JSON.stringify(this.cart));
 
-          this.calculateTotalPrice();
+        this.calculateTotalPrice();
       },
       calculateTotalPrice() {
-          // Calcula o preço total dos produtos no carrinho
-          this.totalPrice = this.cart.reduce((total, product) => {
-              return total + parseFloat(product.value);
-          }, 0);
+        this.totalPrice = this.cart.reduce((total, product) => {
+            return total + parseFloat(product.value);
+        }, 0);
       },
       expandImage(imageSrc) {
-          console.log("Cliquei", imageSrc);
-          this.isModalOpen = true;
-          console.log("this.isModalOpen", this.isModalOpen);
-          this.modalImageSrc = imageSrc;
-          console.log("this.modalImageSrc", this.modalImageSrc);
+        console.log("Cliquei", imageSrc);
+        this.isModalOpen = true;
+        console.log("this.isModalOpen", this.isModalOpen);
+        this.modalImageSrc = imageSrc;
+        console.log("this.modalImageSrc", this.modalImageSrc);
       },
       closeModal() {
-          this.isModalOpen = false;
-          this.modalImageSrc = '';
+        this.isModalOpen = false;
+        this.modalImageSrc = '';
       },
       async getCategory() {
-          const response = await axios.get(`/api/categories`)
-          this.categories = response.data;
-          console.log("CAT", this.categories = response.data);
+        const response = await axios.get(`/api/categories`)
+        this.categories = response.data;
+        console.log("CAT", this.categories = response.data);
       },
       async getTags() {
-          const response = await axios.get(`/api/tags?idCategory=${this.idCategory}`)
-          return response.data
+        const response = await axios.get(`/api/tags?idCategory=${this.idCategory}`)
+        console.log("Response Tag", response);
+        return response.data
       },
       async toggleTag(tag) {
 
-          this.products = await this.getProducts(tag.id)
-          console.log(this.products)
+        this.products = await this.getProducts(tag.id)
+        console.log("Products", this.products);
       },
       async getProducts(tagId) {
 
@@ -293,8 +290,8 @@ export default {
 
         const response = await axios.get(url);
 
-        console.log("response", response);
-        return response.data;
+        //console.log("response", response.data.products);
+        return response.data.products;
 
 
       }
