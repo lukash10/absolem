@@ -264,7 +264,7 @@ export default {
     },
     async getPromotion() {
         const response = await axios.get(`/api/products?promotion=true&disabled=false`)
-        this.promotedProducts = response.data;
+        this.promotedProducts = response.data.products;
         console.log("Promoção", this.promotedProducts);
     }
   },
