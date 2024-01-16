@@ -18,6 +18,7 @@ module.exports = () => {
 
   // Products
   router.get('/products', productController.findListAndOne);
+  router.get('/product/:productName', productController.findByTitle);
   router.post('/product', productController.create);
   router.put('/product/:id', productController.edit);
   router.delete('/product/:id', productController.delete);

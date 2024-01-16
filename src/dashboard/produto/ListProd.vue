@@ -40,11 +40,12 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <VueMultiselect
-                        v-model="selected"
-                        :options="options"
-                        :close-on-select="true"
-                        :clear-on-select="false"
-                        placeholder="Busque um produto"
+                            @input="filteredProducts"
+                            v-model="selected"
+                            :options="options"
+                            :close-on-select="true"
+                            :clear-on-select="false"
+                            placeholder="Busque um produto"
                         />
                     </div>
                 </div>
@@ -66,13 +67,12 @@
                                                                 <th>Categoria</th>
                                                                 <th>Valor</th>
                                                                 <th>Peso</th>
-                                                                <th class="text-center">Adicional</th>
                                                                 <th>Estoque</th>
                                                                 <th>Ações</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr v-for="(product, index) in paginatedProducts" :key="index">
+                                                            <tr v-for="(product, index) in products" :key="index">
                                                                 <td>
                                                                     <div class="widget-26-job-emp-img">
                                                                         <img class="img-size" :src="'/upload_images/products/' + product.image" alt="Company" />
@@ -95,9 +95,6 @@
                                                                 </td>
                                                                 <td>
                                                                     <p class="type m-0"> {{ product.weight }}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="type m-0 text-center"> {{ product.additional }} </p>
                                                                 </td>
                                                                 <td>
                                                                     <div>
@@ -132,21 +129,25 @@
 
                                 <nav class="d-flex justify-content-center">
                                     <ul class="pagination pagination-base pagination-boxed pagination-square mb-0">
-                                    <li class="page-item" v-if="currentPage > 1">
-                                        <a class="page-link no-border" @click="previousPage">
-                                        <span aria-hidden="true">«</span>
-                                        <span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-                                    <li v-for="pageNumber in totalPageCount" :key="pageNumber" :class="{'page-item': true, 'active': currentPage === pageNumber}">
-                                        <a class="page-link no-border" @click="changePage(pageNumber)">{{ pageNumber }}</a>
-                                    </li>
-                                    <li class="page-item" v-if="currentPage < totalPageCount">
-                                        <a class="page-link no-border" @click="nextPage">
-                                        <span aria-hidden="true">»</span>
-                                        <span class="sr-only">Next</span>
-                                        </a>
-                                    </li>
+
+                                        <li type="button" class="page-item" v-if="currentPage > 1">
+                                            <a class="page-link no-border" @click="previousPage">
+                                                <span aria-hidden="true">«</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+
+                                        <li type="button" v-for="pageNumber in totalPages" :key="pageNumber" :class="{'page-item': true, 'active': currentPage === pageNumber}">
+                                            <a class="page-link no-border" @click="changePage(pageNumber)">{{ pageNumber }}</a>
+                                        </li>
+
+                                        <li type="button" class="page-item" v-if="currentPage < totalPages">
+                                            <a class="page-link no-border" @click="nextPage">
+                                                <span aria-hidden="true">»</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+
                                     </ul>
                                 </nav>
 
@@ -176,12 +177,15 @@ export default {
         return {
             currentPage: 1,
             itemsPerPage: 10,
+            totalPages: 0,
             products: [],
             options: [],
             categories: [],
             selected: null,
             options: [],
             loading: true,
+            filterProducts: [],
+            multiselectKey: 0,
         }
     },
     components: {
@@ -190,44 +194,42 @@ export default {
     },
     async mounted() {
 
-        try {
-            this.products = await this.getProducts();
-            this.options = this.products.map(product => product.title);
-            
-            this.loading = false; // Quando os produtos forem carregados, definimos loading como falso
-            console.log("PRODUCTS", this.products);
-            console.log("OPT", this.options);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-            this.loading = false; // Em caso de erro, também definimos loading como falso
-        }
+        this.changePage(this.currentPage);
+
+        const filter = await axios.get(`/api/products`);
+        this.filterProducts = filter.data.products;
+
+        this.options = filter.data.products.map(product => product.title);
+        this.loading = false;
 
     },
     computed: {
-        totalPageCount() {
-            return Math.ceil(this.products.length / this.itemsPerPage);
-        },
-        paginatedProducts() {
-            if (this.selected) {
-                // Se um produto foi selecionado, mostre apenas ele
-                return this.products.filter(product => product.title === this.selected);
-            } else {
-                // Caso contrário, mostre os produtos paginados normalmente
-                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-                const endIndex = this.currentPage * this.itemsPerPage;
-                return this.products.slice(startIndex, endIndex);
-            }
-        },
         filteredProducts() {
             if (!this.selected) {
-                return this.products; // Se nenhum filtro estiver selecionado, retorne todos os produtos
+                console.log("Filtro1");
             } else {
-                return this.products.filter(product => product.title === this.selected); // Filtre os produtos com base no título
-                // Ou você pode usar outra lógica de filtragem, como por categoria, usando 'product.categoryName === this.selected'
+                console.log("this.selected", this.selected);
+                this.searchProductByTitle(this.selected).then(product => {
+                    // Faça o que quiser com o produto retornado
+                    console.log('Product found:', product);
+                    
+                    // Atualize a lista de produtos para conter apenas o produto filtrado
+                    this.products = product;
+                });
             }
         }
     },
     methods: {
+        async searchProductByTitle(title) {
+            try {
+                console.log("Title", title);
+                const response = await axios.get(`/api/product/${title}`);
+                return response.data; // Ou ajuste conforme a estrutura da sua resposta da API
+            } catch (error) {
+                console.error('Error searching product by title:', error);
+                throw error;
+            }
+        },
         async updateStock(productId, stock) {
             try {
                 const response = await axios.put(`/api/product/${productId}`, { stock: stock });
@@ -244,17 +246,33 @@ export default {
                 // Trate o erro, mostre uma mensagem, etc.
             }
         },
-        changePage(pageNumber) {
+        async changePage(pageNumber) {
+
             this.currentPage = pageNumber;
+
+            const response = await axios.get(`/api/products?page=${this.currentPage}&pageSize=${this.itemsPerPage}`);
+            
+            this.products = response.data.products;
+                        
+            this.totalPages = Math.ceil(response.data.totalCount / this.itemsPerPage);
+
+            for (const product of this.products) {
+                product.categoryName = await this.getCategoryName(product.categoryId);
+            }
+
+            this.loading = false;
+
         },
-        nextPage() {
-            if (this.currentPage < this.totalPageCount) {
+        async nextPage() {
+            if (this.currentPage < this.totalPages) {
                 this.currentPage++;
+                this.changePage(this.currentPage);
             }
         },
-        previousPage() {
+        async previousPage() {
             if (this.currentPage > 1) {
                 this.currentPage--;
+                this.changePage(this.currentPage);
             }
         },
         async getCategoryName(categoryId) {
@@ -271,13 +289,13 @@ export default {
         },
         async confirmDelete(productId, productName) {
             if (confirm(`Tem certeza que deseja deletar o produto '${productName}'?`)) {
-            this.deleteCategory(productId);
+                this.deleteCategory(productId);
             }
         },
         async deleteCategory(productId) {
             try {
                 const response = await axios.delete(`/api/product/${productId}`);
-                console.log('Product deleted:', response);
+                
                 // You may want to update your UI or re-fetch the product list here
                 this.products = await this.getProducts();
 
@@ -286,18 +304,6 @@ export default {
                 // Handle error, show message, etc.
             }
         },
-        async getProducts() {
-
-            const response = await axios.get('/api/products');
-            const products = response.data;
-
-            for (const product of products) {
-                product.categoryName = await this.getCategoryName(product.categoryId);
-            }
-
-            console.log("PRODUTOS", products);
-            return products;
-        }
     },
 
 }

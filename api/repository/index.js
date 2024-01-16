@@ -133,8 +133,10 @@ module.exports = {
       console.log(e);
     }
   },
-  findAllProducts: async (tagId, categoryId, promotion, disabled) => {
+
+  findAllProducts: async (tagId, categoryId, promotion, disabled, offset, pageSize) => {
     try {
+
       var whereStatements = {};
 
       if (tagId) {
@@ -153,11 +155,69 @@ module.exports = {
         whereStatements['disabled'] = false
       }
 
-      const products = await Product.findAll({
-        where: whereStatements
-      });
+      const options = {
+        where: whereStatements,
+      };
+
+      if (pageSize) {
+        options.limit = pageSize;
+      }
+  
+      if (offset) {
+        options.offset = offset;
+      }
+
+      const products = await Product.findAll(options);
 
       return products;
+
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  findByTitle: async (title) => {
+    try {
+      const options = {
+        where: { title: title }, // Adicione a condição de busca por título
+      };
+
+      console.log("TITULO BD", title);
+  
+      const product = await Product.findOne(options);
+  
+      return product;
+  
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  },
+  countAllProducts: async (tagId, categoryId, promotion, disabled) => {
+    try {
+      var whereStatements = {};
+  
+      if (tagId) {
+        whereStatements['tagId'] = tagId
+      }
+      
+      if (categoryId) {
+        whereStatements['categoryId'] = categoryId
+      }
+  
+      if (promotion) {
+        whereStatements['promotion'] = true
+      }
+  
+      if (disabled) {
+        whereStatements['disabled'] = false
+      }
+  
+      const count = await Product.count({
+        where: whereStatements,
+      });
+  
+      return count;
+  
     } catch (e) {
       console.log(e);
     }
