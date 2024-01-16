@@ -198,6 +198,7 @@ export default {
 
         this.loadFilter();
 
+
         this.loading = false;
 
     },
