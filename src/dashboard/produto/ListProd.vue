@@ -192,21 +192,19 @@ export default {
         MenuLateral,
         VueMultiselect
     },
-    async mounted() {
+    mounted() {
 
         this.changePage(this.currentPage);
 
-        const filter = await axios.get(`/api/products`);
-        this.filterProducts = filter.data.products;
+        this.loadFilter();
 
-        this.options = filter.data.products.map(product => product.title);
         this.loading = false;
 
     },
     computed: {
         filteredProducts() {
             if (!this.selected) {
-                console.log("Filtro1");
+                //console.log("Filtro1");
             } else {
                 console.log("this.selected", this.selected);
                 this.searchProductByTitle(this.selected).then(product => {
@@ -220,6 +218,11 @@ export default {
         }
     },
     methods: {
+        async loadFilter(){
+            const filter = await axios.get(`/api/products`);
+            this.filterProducts = filter.data.products;
+            this.options = filter.data.products.map(product => product.title);
+        },
         async searchProductByTitle(title) {
             try {
                 console.log("Title", title);
