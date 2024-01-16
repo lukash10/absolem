@@ -197,6 +197,7 @@ export default {
             this.category = response.data;
         },
         async getTags() {
+          
             const response = await axios.get(`/api/tags?idCategory=${this.idCategory}`)
 
             return response.data
